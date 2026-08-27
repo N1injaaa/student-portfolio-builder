@@ -6,7 +6,6 @@ import { AppNavbar } from "@/components/layout/app-navbar";
 import { AuthGate } from "@/components/auth/auth-gate";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Switch } from "@/components/ui/switch";
 import { Input, Label } from "@/components/ui/input";
 import { PortfolioView } from "@/components/portfolio/portfolio-view";
 import { useProfileStore } from "@/lib/store";
@@ -97,11 +96,23 @@ function PortfolioSettingsContent() {
 
             <div className="mt-4 flex items-center justify-between">
               <span className="text-sm text-ink">Published</span>
-              <Switch
-                checked={settings.isPublished}
-                onChange={(checked) => updatePortfolioSettings({ isPublished: checked })}
-                label="Toggle publish status"
-              />
+              <button
+                onClick={() =>
+                  updatePortfolioSettings({ isPublished: !settings.isPublished })
+                }
+                className={cn(
+                  "focus-ring relative h-6 w-11 shrink-0 rounded-full p-0 transition-colors",
+                  settings.isPublished ? "bg-teal" : "bg-rule"
+                )}
+                aria-label="Toggle publish status"
+              >
+                <span
+                  className={cn(
+                    "absolute left-0.5 top-0.5 h-5 w-5 rounded-full bg-white shadow-sm transition-transform",
+                    settings.isPublished ? "translate-x-5" : "translate-x-0"
+                  )}
+                />
+              </button>
             </div>
           </Card>
 

@@ -35,7 +35,7 @@ interface ProfileState {
   updateOverview: (overview: Partial<Overview>) => void;
   updateResumeSettings: (settings: Partial<ResumeSettings>) => void;
   updatePortfolioSettings: (settings: Partial<PortfolioSettings>) => void;
-  addItem: <T extends { id: string }>(key: ArrayKey, item: Omit<T, "id"> | T) => void;
+  addItem: <T extends { id: string }>(key: ArrayKey, item: Omit<T, "id">) => void;
   updateItem: <T extends { id: string }>(key: ArrayKey, id: string, item: Partial<T>) => void;
   removeItem: (key: ArrayKey, id: string) => void;
   reorderItems: (key: ArrayKey, fromIndex: number, toIndex: number) => void;
@@ -88,19 +88,12 @@ export const useProfileStore = create<ProfileState>()((set) => ({
       },
     })),
   addItem: (key, item) =>
-    set((state) => {
-      // Allow callers to pass a pre-generated id (used by the entry-list
-      // editor to sync a draft into the live preview before it's formally
-      // saved) — fall back to generating one when it's absent, as before.
-      const providedId = (item as Partial<{ id: string }>).id;
-      const id = providedId && providedId.length > 0 ? providedId : newId();
-      return {
-        profile: {
-          ...state.profile,
-          [key]: [...(state.profile[key] as { id: string }[]), { ...item, id }],
-        },
-      };
-    }),
+    set((state) => ({
+      profile: {
+        ...state.profile,
+        [key]: [...(state.profile[key] as { id: string }[]), { ...item, id: newId() }],
+      },
+    })),
   updateItem: (key, id, item) =>
     set((state) => ({
       profile: {

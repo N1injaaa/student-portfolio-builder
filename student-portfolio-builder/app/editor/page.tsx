@@ -104,7 +104,7 @@ function EditorContent() {
             </div>
             <div className="sticky top-6 min-w-0 overflow-hidden rounded-lg border border-rule">
               <div className="border-b border-rule bg-surface-raised px-4 py-2 text-xs text-ink-soft xl:hidden">
-                Live preview — updates as you type
+                Live preview — updates as you save
               </div>
               <div className="max-h-[calc(100vh-160px)] overflow-y-auto">
                 <div

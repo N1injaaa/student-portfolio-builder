@@ -7,6 +7,7 @@ import { AppNavbar } from "@/components/layout/app-navbar";
 import { AuthGate } from "@/components/auth/auth-gate";
 import { Button } from "@/components/ui/button";
 import { PortfolioView } from "@/components/portfolio/portfolio-view";
+import { ResumePreview } from "@/components/resume/resume-preview";
 import { EditorSidebar, type EditorSection } from "@/components/forms/editor-sidebar";
 import { OverviewForm } from "@/components/forms/overview-form";
 import { EducationForm } from "@/components/forms/education-form";
@@ -17,6 +18,7 @@ import { LanguagesForm } from "@/components/forms/languages-form";
 import { CertificatesForm } from "@/components/forms/certificates-form";
 import { ActivitiesForm } from "@/components/forms/activities-form";
 import { useProfileStore } from "@/lib/store";
+import { cn } from "@/lib/utils";
 
 const validSections: EditorSection[] = [
   "overview",
@@ -29,6 +31,8 @@ const validSections: EditorSection[] = [
   "activities",
 ];
 
+type PreviewMode = "portfolio" | "resume";
+
 function EditorContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -37,6 +41,7 @@ function EditorContent() {
     requested && validSections.includes(requested) ? requested : "overview"
   );
   const [showPreview, setShowPreview] = useState(true);
+  const [previewMode, setPreviewMode] = useState<PreviewMode>("portfolio");
   const profile = useProfileStore((s) => s.profile);
 
   useEffect(() => {
@@ -62,12 +67,11 @@ function EditorContent() {
             Build the record your resume and portfolio pull from.
           </p>
         </div>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => setShowPreview((v) => !v)}
-          className="xl:hidden"
-        >
+        {/* Always rendered (not just on mobile) — this used to only show
+            below the xl breakpoint, so on wide screens there was no way
+            to bring the preview back once the inline hide button inside
+            the panel was clicked. */}
+        <Button variant="outline" size="sm" onClick={() => setShowPreview((v) => !v)}>
           {showPreview ? <EyeOff className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />}
           {showPreview ? "Hide preview" : "Show preview"}
         </Button>
@@ -90,7 +94,7 @@ function EditorContent() {
 
         {showPreview && (
           <div className="min-w-0 xl:w-[420px] xl:shrink-0">
-            <div className="hidden items-center justify-between pb-2 xl:flex">
+            <div className="flex items-center justify-between pb-2">
               <span className="text-xs font-semibold uppercase tracking-wide text-ink-soft">
                 Live preview
               </span>
@@ -102,11 +106,37 @@ function EditorContent() {
                 <EyeOff className="h-3.5 w-3.5" />
               </button>
             </div>
+
+            <div className="mb-3 grid grid-cols-2 gap-1 rounded-md border border-rule bg-surface-raised p-1">
+              <button
+                onClick={() => setPreviewMode("portfolio")}
+                className={cn(
+                  "focus-ring rounded px-3 py-1.5 text-xs font-medium transition-colors",
+                  previewMode === "portfolio"
+                    ? "bg-surface text-ink shadow-sm"
+                    : "text-ink-soft hover:text-ink"
+                )}
+              >
+                Portfolio
+              </button>
+              <button
+                onClick={() => setPreviewMode("resume")}
+                className={cn(
+                  "focus-ring rounded px-3 py-1.5 text-xs font-medium transition-colors",
+                  previewMode === "resume"
+                    ? "bg-surface text-ink shadow-sm"
+                    : "text-ink-soft hover:text-ink"
+                )}
+              >
+                Resume
+              </button>
+            </div>
+
             <div className="sticky top-6 min-w-0 overflow-hidden rounded-lg border border-rule">
-              <div className="border-b border-rule bg-surface-raised px-4 py-2 text-xs text-ink-soft xl:hidden">
+              <div className="border-b border-rule bg-surface-raised px-4 py-2 text-xs text-ink-soft">
                 Live preview — updates as you type
               </div>
-              <div className="max-h-[calc(100vh-160px)] overflow-y-auto">
+              <div className="max-h-[calc(100vh-160px)] overflow-y-auto bg-[#f4f4f4]">
                 <div
                   style={{
                     transform: "scale(0.72)",
@@ -114,7 +144,13 @@ function EditorContent() {
                     width: "138.9%",
                   }}
                 >
-                  <PortfolioView profile={profile} />
+                  {previewMode === "portfolio" ? (
+                    <PortfolioView profile={profile} />
+                  ) : (
+                    <div className="py-4">
+                      <ResumePreview profile={profile} />
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -143,3 +179,4 @@ export default function EditorPage() {
     </div>
   );
 }
+

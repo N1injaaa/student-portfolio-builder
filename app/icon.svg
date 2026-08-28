@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 680">
+<rect x="40" y="40" width="600" height="600" rx="56" fill="#12172B"/>
+<polygon points="560,40 640,40 640,120" fill="#1E2748"/>
+<line x1="560" y1="40" x2="640" y2="120" stroke="#D6AF54" stroke-width="3"/>
+<text x="340" y="440" font-family="Georgia, 'Times New Roman', serif" font-size="380" font-weight="700" fill="#D6AF54" text-anchor="middle">V</text>
+</svg>

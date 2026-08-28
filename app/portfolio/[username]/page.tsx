@@ -13,6 +13,7 @@ interface PublicProfileRow {
   user_id: string;
   data: Partial<Profile> | null;
   is_published: boolean;
+  is_pro: boolean;
 }
 
 export default async function PublicPortfolioPage({
@@ -25,7 +26,7 @@ export default async function PublicPortfolioPage({
 
   const { data: row } = await supabase
     .from("profiles")
-    .select("user_id, data, is_published")
+    .select("user_id, data, is_published, is_pro")
     .eq("username", username)
     .eq("is_published", true)
     .maybeSingle<PublicProfileRow>();
@@ -57,7 +58,7 @@ export default async function PublicPortfolioPage({
   return (
     <div className="relative">
       <DownloadResumeButton profile={profile} ownerId={row.user_id} />
-      <PortfolioView profile={profile} />
+      <PortfolioView profile={profile} isPro={row.is_pro} />
     </div>
   );
 }

@@ -18,6 +18,7 @@ import { Button } from "@/components/ui/button";
 import { useProfileStore } from "@/lib/store";
 import { calculateCompletion } from "@/lib/utils";
 import { toast } from "@/lib/toast-store";
+import { UPGRADE_URL } from "@/lib/upgrade";
 
 function StatCard({
   icon: Icon,
@@ -43,6 +44,7 @@ function StatCard({
 
 function DashboardContent() {
   const profile = useProfileStore((s) => s.profile);
+  const isPro = useProfileStore((s) => s.isPro);
   const loadDemoProfile = useProfileStore((s) => s.loadDemoProfile);
 
   const { percent, missing } = calculateCompletion(profile);
@@ -81,6 +83,22 @@ function DashboardContent() {
           </Button>
         )}
       </div>
+
+      {!isPro && (
+        <Card className="mt-6 flex flex-wrap items-center justify-between gap-4 border-gold/40 bg-gold-soft">
+          <div>
+            <p className="font-display text-sm font-medium text-ink">
+              Unlock every theme and drop the footer badge
+            </p>
+            <p className="mt-0.5 text-xs text-ink-soft">
+              Pro gives you all 8 portfolio themes and removes the &ldquo;Built with&rdquo; footer.
+            </p>
+          </div>
+          <a href={UPGRADE_URL} target="_blank" rel="noreferrer">
+            <Button size="sm">Upgrade to Pro</Button>
+          </a>
+        </Card>
+      )}
 
       {isEmpty ? (
         <Card className="mt-8 flex flex-col items-center gap-4 py-14 text-center">

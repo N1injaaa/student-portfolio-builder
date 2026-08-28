@@ -1,11 +1,12 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { BookMarked, Loader2, AlertTriangle } from "lucide-react";
+import { Loader2, AlertTriangle } from "lucide-react";
 import { useSupabaseUser } from "@/hooks/use-supabase-user";
 import { GoogleSignInButton } from "@/components/auth/sign-in-button";
 import { ProfileLoader } from "@/components/auth/profile-loader";
 import { Button } from "@/components/ui/button";
+import { Logo } from "@/components/layout/logo";
 import { useProfileStore } from "@/lib/store";
 
 export function AuthGate({ children }: { children: ReactNode }) {
@@ -26,8 +27,8 @@ export function AuthGate({ children }: { children: ReactNode }) {
   if (!user) {
     return (
       <div className="flex min-h-[70vh] flex-col items-center justify-center px-6 text-center">
-        <span className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-gold-soft text-gold">
-          <BookMarked className="h-5 w-5" />
+        <span className="mb-4">
+          <Logo size="lg" />
         </span>
         <h1 className="font-display text-xl font-semibold text-ink">Sign in to continue</h1>
         <p className="mt-2 max-w-sm text-sm text-ink-soft">

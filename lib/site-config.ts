@@ -2,7 +2,7 @@
 // This is the ONLY place you need to change it.
 
 export const SITE_AUTHOR = "Berkinbaev Nurgeldi"; // TODO: replace with your full name
-export const SITE_NAME = "Student Portfolio Builder";
+export const SITE_NAME = "Vitafolio";
 
 export function copyrightLine() {
   const year = new Date().getFullYear();

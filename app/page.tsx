@@ -1,7 +1,6 @@
 import Link from "next/link";
 import {
   ArrowRight,
-  BookMarked,
   FileText,
   Globe2,
   GraduationCap,
@@ -11,7 +10,8 @@ import {
   ShieldCheck,
   Sparkles,
 } from "lucide-react";
-import { SITE_AUTHOR, copyrightLine } from "@/lib/site-config";
+import { Logo } from "@/components/layout/logo";
+import { SITE_AUTHOR, SITE_NAME, copyrightLine } from "@/lib/site-config";
 
 const templates = [
   { name: "Minimal", note: "Quiet type, generous margins" },
@@ -88,13 +88,8 @@ function MarketingNav() {
   return (
     <header className="sticky top-0 z-40 border-b border-rule bg-paper/90 backdrop-blur">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
-        <div className="flex items-center gap-2">
-          <span className="flex h-7 w-7 items-center justify-center rounded-md bg-ink text-paper">
-            <BookMarked className="h-3.5 w-3.5" />
-          </span>
-          <span className="font-display text-base font-semibold text-ink">
-            Portfolio Builder
-          </span>
+        <div className="flex items-center">
+          <Logo size="base" />
         </div>
         <nav className="hidden items-center gap-6 text-sm text-ink-soft md:flex">
           <a href="#features" className="hover:text-ink">Features</a>
@@ -242,7 +237,7 @@ function WhySection() {
     <section className="border-b border-rule py-20">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <h2 className="font-display text-2xl font-semibold text-ink sm:text-3xl">
-          Why Student Portfolio Builder
+          Why {SITE_NAME}
         </h2>
         <div className="mt-10 grid gap-6 sm:grid-cols-3">
           {points.map((p) => (
@@ -446,9 +441,8 @@ function Footer() {
   return (
     <footer className="py-10">
       <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-4 text-sm text-ink-soft sm:flex-row sm:px-6">
-        <div className="flex items-center gap-2">
-          <BookMarked className="h-4 w-4" />
-          <span>Student Portfolio Builder</span>
+        <div className="flex items-center">
+          <Logo size="sm" />
         </div>
         <p>Built for students applying to what&rsquo;s next.</p>
       </div>

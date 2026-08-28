@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Check, ExternalLink } from "lucide-react";
+import { Check, ExternalLink, Lock } from "lucide-react";
 import { AppNavbar } from "@/components/layout/app-navbar";
 import { AuthGate } from "@/components/auth/auth-gate";
 import { Card } from "@/components/ui/card";
@@ -11,6 +11,7 @@ import { Input, Label } from "@/components/ui/input";
 import { PortfolioView } from "@/components/portfolio/portfolio-view";
 import { useProfileStore } from "@/lib/store";
 import { cn, slugify } from "@/lib/utils";
+import { UPGRADE_URL } from "@/lib/upgrade";
 import type {
   PhotoStyle,
   PortfolioLayout,
@@ -18,15 +19,15 @@ import type {
   PortfolioTheme,
 } from "@/types/profile";
 
-const themes: { id: PortfolioTheme; label: string; swatch: string }[] = [
+const themes: { id: PortfolioTheme; label: string; swatch: string; pro?: boolean }[] = [
   { id: "paper", label: "Paper", swatch: "#FBFAF7" },
   { id: "ink", label: "Ink", swatch: "#12172B" },
   { id: "orchard", label: "Orchard", swatch: "#F6F2E7" },
-  { id: "slate", label: "Slate", swatch: "#F1F3F6" },
-  { id: "meadow", label: "Meadow", swatch: "#F3F7F1" },
-  { id: "sandstone", label: "Sandstone", swatch: "#FAF3EA" },
-  { id: "midnight", label: "Midnight", swatch: "#0B1220" },
-  { id: "blossom", label: "Blossom", swatch: "#FDF3F6" },
+  { id: "slate", label: "Slate", swatch: "#F1F3F6", pro: true },
+  { id: "meadow", label: "Meadow", swatch: "#F3F7F1", pro: true },
+  { id: "sandstone", label: "Sandstone", swatch: "#FAF3EA", pro: true },
+  { id: "midnight", label: "Midnight", swatch: "#0B1220", pro: true },
+  { id: "blossom", label: "Blossom", swatch: "#FDF3F6", pro: true },
 ];
 
 const layouts: { id: PortfolioLayout; label: string; note: string }[] = [
@@ -55,6 +56,7 @@ const sectionLabels: { key: keyof PortfolioSettings["visibleSections"]; label: s
 
 function PortfolioSettingsContent() {
   const profile = useProfileStore((s) => s.profile);
+  const isPro = useProfileStore((s) => s.isPro);
   const updatePortfolioSettings = useProfileStore((s) => s.updatePortfolioSettings);
   const settings = profile.portfolioSettings;
 
@@ -110,26 +112,55 @@ function PortfolioSettingsContent() {
               Theme
             </p>
             <div className="grid grid-cols-4 gap-2">
-              {themes.map((t) => (
-                <button
-                  key={t.id}
-                  onClick={() => updatePortfolioSettings({ theme: t.id })}
-                  className={cn(
-                    "focus-ring rounded-md border p-2 text-center transition-colors",
-                    settings.theme === t.id ? "border-gold" : "border-rule hover:bg-surface-raised"
-                  )}
-                >
-                  <span
-                    className="mx-auto block h-8 w-full rounded border border-rule"
-                    style={{ background: t.swatch }}
-                  />
-                  <span className="mt-1.5 flex items-center justify-center gap-1 text-xs font-medium text-ink">
-                    {t.label}
-                    {settings.theme === t.id && <Check className="h-3 w-3 text-gold" />}
-                  </span>
-                </button>
-              ))}
+              {themes.map((t) => {
+                const locked = t.pro && !isPro;
+                return (
+                  <button
+                    key={t.id}
+                    onClick={() =>
+                      locked
+                        ? window.open(UPGRADE_URL, "_blank")
+                        : updatePortfolioSettings({ theme: t.id })
+                    }
+                    className={cn(
+                      "focus-ring relative rounded-md border p-2 text-center transition-colors",
+                      settings.theme === t.id ? "border-gold" : "border-rule hover:bg-surface-raised"
+                    )}
+                  >
+                    {locked && (
+                      <span className="absolute right-1 top-1 flex h-4 w-4 items-center justify-center rounded-full bg-ink/80 text-white">
+                        <Lock className="h-2.5 w-2.5" />
+                      </span>
+                    )}
+                    <span
+                      className={cn(
+                        "mx-auto block h-8 w-full rounded border border-rule",
+                        locked && "opacity-50"
+                      )}
+                      style={{ background: t.swatch }}
+                    />
+                    <span className="mt-1.5 flex items-center justify-center gap-1 text-xs font-medium text-ink">
+                      {t.label}
+                      {settings.theme === t.id && <Check className="h-3 w-3 text-gold" />}
+                    </span>
+                  </button>
+                );
+              })}
             </div>
+            {!isPro && (
+              <p className="mt-3 text-xs text-ink-soft">
+                🔒 5 more themes are available on{" "}
+                <a
+                  href={UPGRADE_URL}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="font-medium text-gold underline underline-offset-2"
+                >
+                  Pro
+                </a>
+                .
+              </p>
+            )}
           </Card>
 
           <Card>
@@ -239,7 +270,7 @@ function PortfolioSettingsContent() {
             Preview — /portfolio/{settings.username || "yourname"}
           </div>
           <div className="max-h-[720px] overflow-y-auto">
-            <PortfolioView profile={profile} />
+            <PortfolioView profile={profile} isPro={isPro} />
           </div>
         </div>
       </div>

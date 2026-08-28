@@ -2,8 +2,9 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, FileEdit, FileText, Globe2, BookMarked, LogOut, ShieldCheck } from "lucide-react";
+import { LayoutDashboard, FileEdit, FileText, Globe2, LogOut, ShieldCheck } from "lucide-react";
 import { ThemeToggle } from "@/components/layout/theme-toggle";
+import { Logo } from "@/components/layout/logo";
 import { useSupabaseUser } from "@/hooks/use-supabase-user";
 import { useIsAdmin } from "@/hooks/use-is-admin";
 import { cn } from "@/lib/utils";
@@ -26,13 +27,8 @@ export function AppNavbar() {
   return (
     <header className="sticky top-0 z-40 border-b border-rule bg-paper/90 backdrop-blur">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
-        <Link href="/dashboard" className="flex items-center gap-2 focus-ring rounded">
-          <span className="flex h-7 w-7 items-center justify-center rounded-md bg-ink text-paper dark:bg-gold dark:text-ink">
-            <BookMarked className="h-3.5 w-3.5" />
-          </span>
-          <span className="font-display text-base font-semibold text-ink">
-            Portfolio Builder
-          </span>
+        <Link href="/dashboard" className="flex items-center focus-ring rounded">
+          <Logo size="base" />
         </Link>
 
         <nav className="hidden items-center gap-1 md:flex">

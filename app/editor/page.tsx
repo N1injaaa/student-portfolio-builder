@@ -43,6 +43,7 @@ function EditorContent() {
   const [showPreview, setShowPreview] = useState(true);
   const [previewMode, setPreviewMode] = useState<PreviewMode>("portfolio");
   const profile = useProfileStore((s) => s.profile);
+  const isPro = useProfileStore((s) => s.isPro);
 
   useEffect(() => {
     if (requested && validSections.includes(requested) && requested !== section) {
@@ -145,7 +146,7 @@ function EditorContent() {
                   }}
                 >
                   {previewMode === "portfolio" ? (
-                    <PortfolioView profile={profile} />
+                    <PortfolioView profile={profile} isPro={isPro} />
                   ) : (
                     <div className="py-4">
                       <ResumePreview profile={profile} />

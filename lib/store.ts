@@ -26,9 +26,16 @@ interface ProfileState {
   hasHydrated: boolean;
   /** The user_id this profile belongs to. Used to avoid saving stale data across accounts. */
   userId: string | null;
+  /**
+   * Whether this account has paid access. Deliberately kept OUTSIDE
+   * `profile` (which the client freely rewrites and autosaves wholesale
+   * on every edit) — it's only ever set by `loadProfile` from the
+   * server-controlled `is_pro` column, never written back by the client.
+   */
+  isPro: boolean;
   /** Set when the initial profile fetch fails, so AuthGate can show a retry screen. */
   loadError: string | null;
-  loadProfile: (userId: string, profile: Profile) => void;
+  loadProfile: (userId: string, profile: Profile, isPro: boolean) => void;
   setLoadError: (message: string | null) => void;
   clearProfile: () => void;
   loadDemoProfile: () => void;
@@ -45,10 +52,13 @@ export const useProfileStore = create<ProfileState>()((set) => ({
   profile: emptyProfile,
   hasHydrated: false,
   userId: null,
+  isPro: false,
   loadError: null,
-  loadProfile: (userId, profile) => set({ userId, profile, hasHydrated: true, loadError: null }),
+  loadProfile: (userId, profile, isPro) =>
+    set({ userId, profile, isPro, hasHydrated: true, loadError: null }),
   setLoadError: (message) => set({ loadError: message }),
-  clearProfile: () => set({ userId: null, profile: emptyProfile, hasHydrated: false, loadError: null }),
+  clearProfile: () =>
+    set({ userId: null, profile: emptyProfile, isPro: false, hasHydrated: false, loadError: null }),
   loadDemoProfile: () =>
     set((state) => {
       const demo = buildDemoProfile();

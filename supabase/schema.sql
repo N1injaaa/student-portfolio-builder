@@ -17,6 +17,7 @@ create table public.profiles (
   full_name text,
   username text,
   is_published boolean not null default false,
+  is_pro boolean not null default false,
   data jsonb not null default '{}'::jsonb,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
@@ -144,6 +145,20 @@ create policy "profiles_update_own"
   on public.profiles for update
   using (auth.uid() = user_id)
   with check (auth.uid() = user_id);
+
+-- IMPORTANT: the policy above only restricts which *rows* a signed-in user
+-- may update (their own) — it does not stop them from writing to any
+-- *column* of that row, including is_pro. Row Level Security and column
+-- privileges are separate mechanisms in Postgres, so without this revoke
+-- a user could open devtools and run
+--   supabase.from("profiles").update({ is_pro: true }).eq("user_id", myId)
+-- and grant themselves Pro for free. This blocks the `is_pro` column
+-- specifically for the `authenticated` role while leaving every other
+-- column (data, username, is_published, full_name) updatable as before.
+-- Only the service role / Supabase Table Editor (which bypass this
+-- privilege check) can change is_pro — which is exactly what you want
+-- when manually marking someone as paid after a Stripe payment.
+revoke update (is_pro) on public.profiles from authenticated;
 
 -- profiles: подстраховка на случай ручной вставки (обычно создаётся триггером)
 create policy "profiles_insert_own"

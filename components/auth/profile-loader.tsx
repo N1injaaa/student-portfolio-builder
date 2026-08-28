@@ -22,7 +22,7 @@ export function ProfileLoader({ userId, children }: { userId: string; children: 
     async function load() {
       const { data, error } = await supabase
         .from("profiles")
-        .select("data")
+        .select("data, is_pro")
         .eq("user_id", userId)
         .maybeSingle();
 
@@ -51,7 +51,11 @@ export function ProfileLoader({ userId, children }: { userId: string; children: 
       }
 
       loadedForUser.current = userId;
-      loadProfile(userId, mergeWithDefaults((data?.data as Partial<Profile> | null) ?? null));
+      loadProfile(
+        userId,
+        mergeWithDefaults((data?.data as Partial<Profile> | null) ?? null),
+        Boolean(data?.is_pro)
+      );
     }
 
     load().catch((err) => {

@@ -2,10 +2,11 @@ import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/react";
 import { ThemeProvider } from "@/components/layout/theme-provider";
 import { Toaster } from "@/components/ui/toaster";
+import { SITE_NAME } from "@/lib/site-config";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Student Portfolio Builder",
+  title: SITE_NAME,
   description:
     "Build a professional resume and portfolio for university and job applications.",
 };

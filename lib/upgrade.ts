@@ -7,4 +7,4 @@
  * automatically via the webhook at
  * app/api/webhooks/lemonsqueezy/route.ts — no manual step needed.
  */
-export const UPGRADE_URL = "https://your-store.lemonsqueezy.com/buy/REPLACE_ME";
+export const UPGRADE_URL = "https://vitafolio.lemonsqueezy.com/checkout/buy/a07a8eeb-8f7b-4974-9880-0f30d085aaf1";

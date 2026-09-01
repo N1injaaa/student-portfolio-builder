@@ -59,16 +59,6 @@ export async function POST(req: NextRequest) {
   // by lowercasing both sides rather than using ILIKE (which treats
   // "_" and "%" in the email as wildcards and can misfire).
   const normalizedEmail = email.toLowerCase();
-
-  // Temporary diagnostics: confirm (without leaking the secret) that the
-  // service-role key actually reached this function, and log the full
-  // Postgres error object — .message alone hides the error `code`,
-  // which is what actually tells us whether this is a missing-grant
-  // problem vs. something else.
-  const keyPresent = Boolean(process.env.SUPABASE_SERVICE_ROLE_KEY);
-  const keyLength = process.env.SUPABASE_SERVICE_ROLE_KEY?.length ?? 0;
-  console.log(`[lemonsqueezy webhook] service key present: ${keyPresent}, length: ${keyLength}`);
-
   const supabase = createAdminClient();
 
   if (GRANT_EVENTS.has(eventName)) {
@@ -76,13 +66,13 @@ export async function POST(req: NextRequest) {
       .from("profiles")
       .update({ is_pro: true })
       .eq("email", normalizedEmail);
-    if (error) console.error("Failed to grant Pro access:", JSON.stringify(error));
+    if (error) console.error("Failed to grant Pro access:", error.message);
   } else if (REVOKE_EVENTS.has(eventName)) {
     const { error } = await supabase
       .from("profiles")
       .update({ is_pro: false })
       .eq("email", normalizedEmail);
-    if (error) console.error("Failed to revoke Pro access:", JSON.stringify(error));
+    if (error) console.error("Failed to revoke Pro access:", error.message);
   }
 
   return NextResponse.json({ received: true });

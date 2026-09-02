@@ -9,6 +9,7 @@ import {
   type PortfolioSettings,
   type Profile,
   type ResumeSettings,
+  type ResumeVersion,
 } from "@/types/profile";
 
 type ArrayKey =
@@ -46,6 +47,15 @@ interface ProfileState {
   updateItem: <T extends { id: string }>(key: ArrayKey, id: string, item: Partial<T>) => void;
   removeItem: (key: ArrayKey, id: string) => void;
   reorderItems: (key: ArrayKey, fromIndex: number, toIndex: number) => void;
+  /** Bumps the lifetime PDF export counter used by the free-tier download cap. */
+  incrementResumeExportCount: () => void;
+  /** Saves the current resumeSettings as a new named version (e.g. "Frontend internship"). */
+  saveResumeVersion: (name: string) => void;
+  /** Applies a saved version's settings as the live resumeSettings and marks it active. */
+  switchToResumeVersion: (id: string) => void;
+  /** Switches back to the original (unsaved) default settings, clearing the active version. */
+  switchToDefaultResume: () => void;
+  deleteResumeVersion: (id: string) => void;
 }
 
 export const useProfileStore = create<ProfileState>()((set) => ({
@@ -134,6 +144,53 @@ export const useProfileStore = create<ProfileState>()((set) => ({
       list.splice(toIndex, 0, moved);
       return { profile: { ...state.profile, [key]: list } };
     }),
+  incrementResumeExportCount: () =>
+    set((state) => ({
+      profile: {
+        ...state.profile,
+        resumeExportCount: state.profile.resumeExportCount + 1,
+      },
+    })),
+  saveResumeVersion: (name) =>
+    set((state) => {
+      const version: ResumeVersion = {
+        id: newId(),
+        name,
+        settings: { ...state.profile.resumeSettings },
+      };
+      return {
+        profile: {
+          ...state.profile,
+          resumeVersions: [...state.profile.resumeVersions, version],
+          activeResumeVersionId: version.id,
+        },
+      };
+    }),
+  switchToResumeVersion: (id) =>
+    set((state) => {
+      const version = state.profile.resumeVersions.find((v) => v.id === id);
+      if (!version) return state;
+      return {
+        profile: {
+          ...state.profile,
+          resumeSettings: { ...version.settings },
+          activeResumeVersionId: id,
+        },
+      };
+    }),
+  switchToDefaultResume: () =>
+    set((state) => ({
+      profile: { ...state.profile, activeResumeVersionId: null },
+    })),
+  deleteResumeVersion: (id) =>
+    set((state) => ({
+      profile: {
+        ...state.profile,
+        resumeVersions: state.profile.resumeVersions.filter((v) => v.id !== id),
+        activeResumeVersionId:
+          state.profile.activeResumeVersionId === id ? null : state.profile.activeResumeVersionId,
+      },
+    })),
 }));
 
 export type { ArrayKey };

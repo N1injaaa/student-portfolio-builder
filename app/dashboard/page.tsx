@@ -88,10 +88,11 @@ function DashboardContent() {
         <Card className="mt-6 flex flex-wrap items-center justify-between gap-4 border-gold/40 bg-gold-soft">
           <div>
             <p className="font-display text-sm font-medium text-ink">
-              Unlock every theme and drop the footer badge
+              Unlock the tools that actually get you interviews
             </p>
             <p className="mt-0.5 text-xs text-ink-soft">
-              Pro gives you all 8 portfolio themes and removes the &ldquo;Built with&rdquo; footer.
+              Pro unlocks every resume template, unlimited PDF exports, the full ATS
+              breakdown, saved resume versions, portfolio view analytics, and every theme.
             </p>
           </div>
           <a href={UPGRADE_URL} target="_blank" rel="noreferrer">

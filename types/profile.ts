@@ -127,6 +127,12 @@ export interface PortfolioSettings {
   isPublished: boolean;
 }
 
+export interface ResumeVersion {
+  id: string;
+  name: string;
+  settings: ResumeSettings;
+}
+
 export interface Profile {
   overview: Overview;
   education: Education[];
@@ -138,6 +144,11 @@ export interface Profile {
   activities: Activity[];
   resumeSettings: ResumeSettings;
   portfolioSettings: PortfolioSettings;
+  /** Lifetime count of resume PDF exports — free accounts are capped, Pro is unlimited. */
+  resumeExportCount: number;
+  /** Saved named presets of resumeSettings, e.g. one per job application. */
+  resumeVersions: ResumeVersion[];
+  activeResumeVersionId: string | null;
 }
 
 export const emptyOverview: Overview = {
@@ -199,4 +210,7 @@ export const emptyProfile: Profile = {
   activities: [],
   resumeSettings: defaultResumeSettings,
   portfolioSettings: defaultPortfolioSettings,
+  resumeExportCount: 0,
+  resumeVersions: [],
+  activeResumeVersionId: null,
 };

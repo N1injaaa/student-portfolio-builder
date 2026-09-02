@@ -2,7 +2,7 @@
 
 import { createClient } from "@/lib/supabase/client";
 
-export type TrackedEvent = "portfolio_published" | "resume_downloaded";
+export type TrackedEvent = "portfolio_published" | "resume_downloaded" | "portfolio_viewed";
 
 /**
  * Fire-and-forget analytics event. `portfolioOwnerId` identifies whose

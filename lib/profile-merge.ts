@@ -23,5 +23,8 @@ export function mergeWithDefaults(partial: Partial<Profile> | null | undefined):
     activities: p.activities ?? [],
     resumeSettings: { ...defaultResumeSettings, ...p.resumeSettings },
     portfolioSettings: { ...defaultPortfolioSettings, ...p.portfolioSettings },
+    resumeExportCount: p.resumeExportCount ?? 0,
+    resumeVersions: p.resumeVersions ?? [],
+    activeResumeVersionId: p.activeResumeVersionId ?? null,
   };
 }

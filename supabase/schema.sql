@@ -58,6 +58,27 @@ create table public.admins (
 );
 
 -- ----------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------
+-- 4b. Функция для владельца портфолио — сколько раз его страницу посмотрели
+--     и сколько раз скачали его резюме. security definer, т.к. таблица
+--     events не открыта на прямой SELECT обычным пользователям.
+-- ----------------------------------------------------------------------------
+create or replace function public.get_my_portfolio_stats()
+returns table (view_count bigint, download_count bigint)
+language sql
+security definer
+set search_path = public
+as $$
+  select
+    count(*) filter (where event_type = 'portfolio_viewed') as view_count,
+    count(*) filter (where event_type = 'resume_downloaded') as download_count
+  from public.events
+  where portfolio_owner_id = auth.uid();
+$$;
+
+grant execute on function public.get_my_portfolio_stats() to authenticated;
+
+-- ----------------------------------------------------------------------------
 -- 4. Функция-помощник: является ли текущий вошедший пользователь админом.
 --    security definer — чтобы функция могла заглянуть в admins,
 --    даже когда сама таблица admins защищена RLS.

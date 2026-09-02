@@ -2,6 +2,7 @@ import Link from "next/link";
 import { SearchX } from "lucide-react";
 import { PortfolioView } from "@/components/portfolio/portfolio-view";
 import { DownloadResumeButton } from "@/components/portfolio/download-resume-button";
+import { PortfolioViewTracker } from "@/components/portfolio/view-tracker";
 import { Button } from "@/components/ui/button";
 import { createClient } from "@/lib/supabase/server";
 import { mergeWithDefaults } from "@/lib/profile-merge";
@@ -57,6 +58,7 @@ export default async function PublicPortfolioPage({
 
   return (
     <div className="relative">
+      <PortfolioViewTracker ownerId={row.user_id} />
       <DownloadResumeButton profile={profile} ownerId={row.user_id} />
       <PortfolioView profile={profile} isPro={row.is_pro} />
     </div>

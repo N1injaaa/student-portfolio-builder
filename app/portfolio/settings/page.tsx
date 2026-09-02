@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Input, Label } from "@/components/ui/input";
 import { PortfolioView } from "@/components/portfolio/portfolio-view";
+import { PortfolioAnalyticsCard } from "@/components/portfolio/analytics-card";
 import { useProfileStore } from "@/lib/store";
 import { cn, slugify } from "@/lib/utils";
 import { UPGRADE_URL } from "@/lib/upgrade";
@@ -106,6 +107,8 @@ function PortfolioSettingsContent() {
               />
             </div>
           </Card>
+
+          <PortfolioAnalyticsCard />
 
           <Card>
             <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-ink-soft">

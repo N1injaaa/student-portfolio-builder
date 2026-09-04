@@ -147,6 +147,9 @@ export function buildDemoProfile(): Profile {
       },
     ],
     resumeSettings: { ...defaultResumeSettings },
+    resumeExportCount: 0,
+    resumeVersions: [],
+    activeResumeVersionId: null,
     portfolioSettings: {
       ...defaultPortfolioSettings,
       username: "alex",

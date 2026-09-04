@@ -5,23 +5,26 @@ import { usePathname } from "next/navigation";
 import { LayoutDashboard, FileEdit, FileText, Globe2, LogOut, ShieldCheck } from "lucide-react";
 import { ThemeToggle } from "@/components/layout/theme-toggle";
 import { Logo } from "@/components/layout/logo";
+import { LanguageSwitcher } from "@/components/layout/language-switcher";
 import { useSupabaseUser } from "@/hooks/use-supabase-user";
 import { useIsAdmin } from "@/hooks/use-is-admin";
+import { useLanguage } from "@/lib/i18n/context";
 import { cn } from "@/lib/utils";
 
 const baseLinks = [
-  { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
-  { href: "/editor", label: "Editor", icon: FileEdit },
-  { href: "/resume", label: "Resume", icon: FileText },
-  { href: "/portfolio/settings", label: "Portfolio", icon: Globe2 },
+  { href: "/dashboard", key: "nav.dashboard", icon: LayoutDashboard },
+  { href: "/editor", key: "nav.editor", icon: FileEdit },
+  { href: "/resume", key: "nav.resume", icon: FileText },
+  { href: "/portfolio/settings", key: "nav.portfolio", icon: Globe2 },
 ];
 
 export function AppNavbar() {
   const pathname = usePathname();
   const { user } = useSupabaseUser();
   const isAdmin = useIsAdmin(user?.id);
+  const { t } = useLanguage();
   const links = isAdmin
-    ? [...baseLinks, { href: "/admin", label: "Admin", icon: ShieldCheck }]
+    ? [...baseLinks, { href: "/admin", key: "nav.admin", icon: ShieldCheck }]
     : baseLinks;
 
   return (
@@ -46,7 +49,7 @@ export function AppNavbar() {
                 )}
               >
                 <link.icon className="h-3.5 w-3.5" />
-                {link.label}
+                {t(link.key)}
               </Link>
             );
           })}
@@ -58,14 +61,15 @@ export function AppNavbar() {
               {user.email}
             </span>
           )}
+          <LanguageSwitcher />
           <ThemeToggle />
           {user && (
             <form action="/auth/sign-out" method="post">
               <button
                 type="submit"
                 className="focus-ring flex h-9 w-9 items-center justify-center rounded-md border border-rule text-ink-soft transition-colors hover:text-ink"
-                aria-label="Sign out"
-                title="Sign out"
+                aria-label={t("nav.signOut")}
+                title={t("nav.signOut")}
               >
                 <LogOut className="h-4 w-4" />
               </button>
@@ -87,7 +91,7 @@ export function AppNavbar() {
               )}
             >
               <link.icon className="h-3.5 w-3.5" />
-              {link.label}
+              {t(link.key)}
             </Link>
           );
         })}

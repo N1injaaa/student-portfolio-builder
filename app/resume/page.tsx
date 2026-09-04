@@ -9,6 +9,7 @@ import { ResumeSettingsPanel } from "@/components/resume/resume-settings-panel";
 import { ResumePreview } from "@/components/resume/resume-preview";
 import { AtsCheckPanel } from "@/components/resume/ats-check-panel";
 import { useProfileStore } from "@/lib/store";
+import { useLanguage } from "@/lib/i18n/context";
 import { exportNodeToPdf } from "@/lib/pdf-export";
 import { trackEvent } from "@/lib/track-event";
 import { toast } from "@/lib/toast-store";
@@ -22,6 +23,7 @@ function ResumeBuilderContent() {
   const userId = useProfileStore((s) => s.userId);
   const isPro = useProfileStore((s) => s.isPro);
   const incrementResumeExportCount = useProfileStore((s) => s.incrementResumeExportCount);
+  const { t } = useLanguage();
   const previewRef = useRef<HTMLDivElement>(null);
   const [exporting, setExporting] = useState(false);
 
@@ -57,10 +59,10 @@ function ResumeBuilderContent() {
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
           <h1 className="font-display text-2xl font-semibold text-ink sm:text-3xl">
-            Resume builder
+            {t("resume.title")}
           </h1>
           <p className="mt-1 text-sm text-ink-soft">
-            Choose a template, tune the details, and export a print-ready PDF.
+            {t("resume.subtitle")}
           </p>
         </div>
         <div className="text-right">
@@ -72,13 +74,13 @@ function ResumeBuilderContent() {
             ) : (
               <Download className="h-4 w-4" />
             )}
-            {exporting ? "Preparing PDF…" : limitReached ? "Upgrade to export" : "Export PDF"}
+            {exporting ? t("resume.exporting") : limitReached ? t("resume.upgradeToExport") : t("resume.export")}
           </Button>
           {!isPro && (
             <p className="mt-1 text-xs text-ink-soft">
               {limitReached
-                ? "Free export limit reached"
-                : `${exportsLeft} free export${exportsLeft === 1 ? "" : "s"} left`}
+                ? t("resume.limitReached")
+                : `${exportsLeft} ${t("resume.exportsLeft")}`}
             </p>
           )}
         </div>

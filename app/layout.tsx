@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/react";
 import { ThemeProvider } from "@/components/layout/theme-provider";
+import { LanguageProvider } from "@/lib/i18n/context";
 import { Toaster } from "@/components/ui/toaster";
 import { SITE_NAME } from "@/lib/site-config";
 import "./globals.css";
@@ -34,8 +35,10 @@ export default function RootLayout({
       </head>
       <body className="font-body antialiased">
         <ThemeProvider>
-          {children}
-          <Toaster />
+          <LanguageProvider>
+            {children}
+            <Toaster />
+          </LanguageProvider>
         </ThemeProvider>
         <Analytics />
       </body>

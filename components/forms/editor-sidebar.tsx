@@ -13,6 +13,7 @@ import {
   User,
   Users,
 } from "lucide-react";
+import { useLanguage } from "@/lib/i18n/context";
 import { cn } from "@/lib/utils";
 
 export type EditorSection =
@@ -25,15 +26,15 @@ export type EditorSection =
   | "certificates"
   | "activities";
 
-const sections: { id: EditorSection; label: string; icon: typeof User }[] = [
-  { id: "overview", label: "Overview", icon: User },
-  { id: "education", label: "Education", icon: GraduationCap },
-  { id: "projects", label: "Projects", icon: Briefcase },
-  { id: "achievements", label: "Achievements", icon: Award },
-  { id: "skills", label: "Skills", icon: Layers },
-  { id: "languages", label: "Languages", icon: LanguagesIcon },
-  { id: "certificates", label: "Certificates", icon: FileBadge },
-  { id: "activities", label: "Activities", icon: Users },
+const sections: { id: EditorSection; key: string; icon: typeof User }[] = [
+  { id: "overview", key: "editor.section.overview", icon: User },
+  { id: "education", key: "editor.section.education", icon: GraduationCap },
+  { id: "projects", key: "editor.section.projects", icon: Briefcase },
+  { id: "achievements", key: "editor.section.achievements", icon: Award },
+  { id: "skills", key: "editor.section.skills", icon: Layers },
+  { id: "languages", key: "editor.section.languages", icon: LanguagesIcon },
+  { id: "certificates", key: "editor.section.certificates", icon: FileBadge },
+  { id: "activities", key: "editor.section.activities", icon: Users },
 ];
 
 interface EditorSidebarProps {
@@ -42,6 +43,7 @@ interface EditorSidebarProps {
 }
 
 export function EditorSidebar({ active, onSelect }: EditorSidebarProps) {
+  const { t } = useLanguage();
   return (
     <aside className="lg:w-56 lg:shrink-0">
       <nav className="flex gap-1 overflow-x-auto pb-2 lg:flex-col lg:overflow-visible lg:pb-0">
@@ -57,7 +59,7 @@ export function EditorSidebar({ active, onSelect }: EditorSidebarProps) {
             )}
           >
             <s.icon className="h-4 w-4 shrink-0" />
-            <span className="whitespace-nowrap">{s.label}</span>
+            <span className="whitespace-nowrap">{t(s.key)}</span>
           </button>
         ))}
         <div className="my-2 hidden border-t border-rule lg:block" />
@@ -66,14 +68,14 @@ export function EditorSidebar({ active, onSelect }: EditorSidebarProps) {
           className="focus-ring flex shrink-0 items-center gap-2.5 rounded-md px-3 py-2 text-left text-sm font-medium text-ink-soft transition-colors hover:bg-surface-raised/60 hover:text-ink lg:w-full"
         >
           <FileText className="h-4 w-4 shrink-0" />
-          Resume
+          {t("nav.resume")}
         </Link>
         <Link
           href="/portfolio/settings"
           className="focus-ring flex shrink-0 items-center gap-2.5 rounded-md px-3 py-2 text-left text-sm font-medium text-ink-soft transition-colors hover:bg-surface-raised/60 hover:text-ink lg:w-full"
         >
           <Globe2 className="h-4 w-4 shrink-0" />
-          Portfolio Settings
+          {t("dashboard.portfolioSettings")}
         </Link>
       </nav>
     </aside>

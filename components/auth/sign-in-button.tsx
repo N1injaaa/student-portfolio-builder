@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { createClient } from "@/lib/supabase/client";
+import { useLanguage } from "@/lib/i18n/context";
 
 function GoogleIcon() {
   return (
@@ -30,6 +31,7 @@ function GoogleIcon() {
 
 export function GoogleSignInButton({ redirectTo = "/dashboard" }: { redirectTo?: string }) {
   const [loading, setLoading] = useState(false);
+  const { t } = useLanguage();
 
   async function handleSignIn() {
     setLoading(true);
@@ -46,7 +48,7 @@ export function GoogleSignInButton({ redirectTo = "/dashboard" }: { redirectTo?:
   return (
     <Button onClick={handleSignIn} disabled={loading} variant="outline">
       {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <GoogleIcon />}
-      Continue with Google
+      {t("auth.continueWithGoogle")}
     </Button>
   );
 }

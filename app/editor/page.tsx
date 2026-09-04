@@ -18,6 +18,7 @@ import { LanguagesForm } from "@/components/forms/languages-form";
 import { CertificatesForm } from "@/components/forms/certificates-form";
 import { ActivitiesForm } from "@/components/forms/activities-form";
 import { useProfileStore } from "@/lib/store";
+import { useLanguage } from "@/lib/i18n/context";
 import { cn } from "@/lib/utils";
 
 const validSections: EditorSection[] = [
@@ -44,6 +45,7 @@ function EditorContent() {
   const [previewMode, setPreviewMode] = useState<PreviewMode>("portfolio");
   const profile = useProfileStore((s) => s.profile);
   const isPro = useProfileStore((s) => s.isPro);
+  const { t } = useLanguage();
 
   useEffect(() => {
     if (requested && validSections.includes(requested) && requested !== section) {
@@ -62,10 +64,10 @@ function EditorContent() {
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <h1 className="font-display text-2xl font-semibold text-ink sm:text-3xl">
-            Profile editor
+            {t("editor.title")}
           </h1>
           <p className="mt-1 text-sm text-ink-soft">
-            Build the record your resume and portfolio pull from.
+            {t("editor.subtitle")}
           </p>
         </div>
         {/* Always rendered (not just on mobile) — this used to only show
@@ -74,7 +76,7 @@ function EditorContent() {
             the panel was clicked. */}
         <Button variant="outline" size="sm" onClick={() => setShowPreview((v) => !v)}>
           {showPreview ? <EyeOff className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />}
-          {showPreview ? "Hide preview" : "Show preview"}
+          {showPreview ? t("editor.hidePreview") : t("editor.showPreview")}
         </Button>
       </div>
 
@@ -97,12 +99,12 @@ function EditorContent() {
           <div className="min-w-0 xl:w-[420px] xl:shrink-0">
             <div className="flex items-center justify-between pb-2">
               <span className="text-xs font-semibold uppercase tracking-wide text-ink-soft">
-                Live preview
+                {t("editor.livePreview")}
               </span>
               <button
                 onClick={() => setShowPreview(false)}
                 className="focus-ring rounded p-1 text-ink-soft hover:text-ink"
-                aria-label="Hide preview"
+                aria-label={t("editor.hidePreview")}
               >
                 <EyeOff className="h-3.5 w-3.5" />
               </button>
@@ -118,7 +120,7 @@ function EditorContent() {
                     : "text-ink-soft hover:text-ink"
                 )}
               >
-                Portfolio
+                {t("editor.previewPortfolio")}
               </button>
               <button
                 onClick={() => setPreviewMode("resume")}
@@ -129,13 +131,13 @@ function EditorContent() {
                     : "text-ink-soft hover:text-ink"
                 )}
               >
-                Resume
+                {t("editor.previewResume")}
               </button>
             </div>
 
             <div className="sticky top-6 min-w-0 overflow-hidden rounded-lg border border-rule">
               <div className="border-b border-rule bg-surface-raised px-4 py-2 text-xs text-ink-soft">
-                Live preview — updates as you type
+                {t("editor.livePreviewHint")}
               </div>
               <div className="max-h-[calc(100vh-160px)] overflow-y-auto bg-[#f4f4f4]">
                 <div

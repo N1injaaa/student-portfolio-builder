@@ -7,6 +7,7 @@ import { GoogleSignInButton } from "@/components/auth/sign-in-button";
 import { ProfileLoader } from "@/components/auth/profile-loader";
 import { Button } from "@/components/ui/button";
 import { Logo } from "@/components/layout/logo";
+import { useLanguage } from "@/lib/i18n/context";
 import { useProfileStore } from "@/lib/store";
 
 export function AuthGate({ children }: { children: ReactNode }) {
@@ -15,6 +16,7 @@ export function AuthGate({ children }: { children: ReactNode }) {
   const storeUserId = useProfileStore((s) => s.userId);
   const loadError = useProfileStore((s) => s.loadError);
   const setLoadError = useProfileStore((s) => s.setLoadError);
+  const { t } = useLanguage();
 
   if (loading) {
     return (
@@ -30,10 +32,9 @@ export function AuthGate({ children }: { children: ReactNode }) {
         <span className="mb-4">
           <Logo size="lg" />
         </span>
-        <h1 className="font-display text-xl font-semibold text-ink">Sign in to continue</h1>
+        <h1 className="font-display text-xl font-semibold text-ink">{t("auth.signInTitle")}</h1>
         <p className="mt-2 max-w-sm text-sm text-ink-soft">
-          Your resume and portfolio data is saved to your account, so you can pick up where you
-          left off from any device.
+          {t("auth.signInDescription")}
         </p>
         <div className="mt-6">
           <GoogleSignInButton />
@@ -48,10 +49,10 @@ export function AuthGate({ children }: { children: ReactNode }) {
         <span className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-clay/10 text-clay">
           <AlertTriangle className="h-5 w-5" />
         </span>
-        <h1 className="font-display text-xl font-semibold text-ink">Couldn&rsquo;t load your profile</h1>
+        <h1 className="font-display text-xl font-semibold text-ink">{t("auth.loadErrorTitle")}</h1>
         <p className="mt-2 max-w-sm text-sm text-ink-soft">{loadError}</p>
         <Button className="mt-6" size="sm" onClick={() => setLoadError(null)}>
-          Try again
+          {t("auth.tryAgain")}
         </Button>
       </div>
     );

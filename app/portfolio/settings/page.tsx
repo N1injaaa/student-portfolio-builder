@@ -11,6 +11,7 @@ import { Input, Label } from "@/components/ui/input";
 import { PortfolioView } from "@/components/portfolio/portfolio-view";
 import { PortfolioAnalyticsCard } from "@/components/portfolio/analytics-card";
 import { useProfileStore } from "@/lib/store";
+import { useLanguage } from "@/lib/i18n/context";
 import { cn, slugify } from "@/lib/utils";
 import { UPGRADE_URL } from "@/lib/upgrade";
 import type {
@@ -59,6 +60,7 @@ function PortfolioSettingsContent() {
   const profile = useProfileStore((s) => s.profile);
   const isPro = useProfileStore((s) => s.isPro);
   const updatePortfolioSettings = useProfileStore((s) => s.updatePortfolioSettings);
+  const { t } = useLanguage();
   const settings = profile.portfolioSettings;
 
   return (
@@ -66,17 +68,17 @@ function PortfolioSettingsContent() {
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
           <h1 className="font-display text-2xl font-semibold text-ink sm:text-3xl">
-            Portfolio builder
+            {t("portfolio.title")}
           </h1>
           <p className="mt-1 text-sm text-ink-soft">
-            Configure your public site and preview it before publishing.
+            {t("portfolio.subtitle")}
           </p>
         </div>
         {settings.username && (
           <Link href={`/portfolio/${settings.username}`} target="_blank">
             <Button variant="outline">
               <ExternalLink className="h-4 w-4" />
-              View live
+              {t("portfolio.viewLive")}
             </Button>
           </Link>
         )}
@@ -85,7 +87,7 @@ function PortfolioSettingsContent() {
       <div className="mt-8 grid gap-8 lg:grid-cols-[300px_1fr]">
         <div className="space-y-5">
           <Card>
-            <Label htmlFor="username">Portfolio username</Label>
+            <Label htmlFor="username">{t("portfolio.username")}</Label>
             <div className="flex items-center gap-1 text-sm text-ink-soft">
               <span className="shrink-0 text-xs">/portfolio/</span>
               <Input
@@ -99,7 +101,7 @@ function PortfolioSettingsContent() {
             </div>
 
             <div className="mt-4 flex items-center justify-between">
-              <span className="text-sm text-ink">Published</span>
+              <span className="text-sm text-ink">{t("portfolio.published")}</span>
               <Switch
                 checked={settings.isPublished}
                 onChange={(checked) => updatePortfolioSettings({ isPublished: checked })}
@@ -112,7 +114,7 @@ function PortfolioSettingsContent() {
 
           <Card>
             <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-ink-soft">
-              Theme
+              {t("portfolio.theme")}
             </p>
             <div className="grid grid-cols-4 gap-2">
               {themes.map((t) => {

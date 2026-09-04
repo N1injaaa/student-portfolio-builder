@@ -16,6 +16,7 @@ import { AuthGate } from "@/components/auth/auth-gate";
 import { Card, ProgressBar } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useProfileStore } from "@/lib/store";
+import { useLanguage } from "@/lib/i18n/context";
 import { calculateCompletion } from "@/lib/utils";
 import { toast } from "@/lib/toast-store";
 import { UPGRADE_URL } from "@/lib/upgrade";
@@ -46,6 +47,7 @@ function DashboardContent() {
   const profile = useProfileStore((s) => s.profile);
   const isPro = useProfileStore((s) => s.isPro);
   const loadDemoProfile = useProfileStore((s) => s.loadDemoProfile);
+  const { t } = useLanguage();
 
   const { percent, missing } = calculateCompletion(profile);
   const isEmpty =
@@ -59,12 +61,13 @@ function DashboardContent() {
         <div>
           <h1 className="font-display text-2xl font-semibold text-ink sm:text-3xl">
             {profile.overview.fullName
-              ? `Welcome back, ${profile.overview.fullName.split(" ")[0]}`
-              : "Welcome"}
+              ? t("dashboard.welcomeBack").replace(
+                  "{name}",
+                  profile.overview.fullName.split(" ")[0]
+                )
+              : t("dashboard.welcome")}
           </h1>
-          <p className="mt-1 text-sm text-ink-soft">
-            Here&rsquo;s where your resume and portfolio stand.
-          </p>
+          <p className="mt-1 text-sm text-ink-soft">{t("dashboard.tagline")}</p>
         </div>
         {isEmpty && (
           <Button
@@ -79,7 +82,7 @@ function DashboardContent() {
             }}
           >
             <Wand2 className="h-4 w-4" />
-            Load demo profile
+            {t("dashboard.loadDemo")}
           </Button>
         )}
       </div>
@@ -88,15 +91,14 @@ function DashboardContent() {
         <Card className="mt-6 flex flex-wrap items-center justify-between gap-4 border-gold/40 bg-gold-soft">
           <div>
             <p className="font-display text-sm font-medium text-ink">
-              Unlock the tools that actually get you interviews
+              {t("dashboard.upgrade.title")}
             </p>
             <p className="mt-0.5 text-xs text-ink-soft">
-              Pro unlocks every resume template, unlimited PDF exports, the full ATS
-              breakdown, saved resume versions, portfolio view analytics, and every theme.
+              {t("dashboard.upgrade.subtitle")}
             </p>
           </div>
           <a href={UPGRADE_URL} target="_blank" rel="noreferrer">
-            <Button size="sm">Upgrade to Pro</Button>
+            <Button size="sm">{t("dashboard.upgrade.button")}</Button>
           </a>
         </Card>
       )}
@@ -108,31 +110,30 @@ function DashboardContent() {
           </span>
           <div>
             <p className="font-display text-lg font-medium text-ink">
-              Your profile is empty
+              {t("dashboard.emptyTitle")}
             </p>
             <p className="mt-1 max-w-sm text-sm text-ink-soft">
-              Add your first education entry or project to start building
-              your resume and portfolio.
+              {t("dashboard.emptyDescription")}
             </p>
           </div>
           <Link href="/editor?section=overview">
-            <Button>Complete my profile</Button>
+            <Button>{t("dashboard.completeProfile")}</Button>
           </Link>
         </Card>
       ) : (
         <>
           <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            <StatCard icon={Briefcase} label="Projects" value={profile.projects.length} />
-            <StatCard icon={Award} label="Achievements" value={profile.achievements.length} />
-            <StatCard icon={FileText} label="Certificates" value={profile.certificates.length} />
-            <StatCard icon={Layers} label="Skills" value={profile.skills.length} />
+            <StatCard icon={Briefcase} label={t("dashboard.stat.projects")} value={profile.projects.length} />
+            <StatCard icon={Award} label={t("dashboard.stat.achievements")} value={profile.achievements.length} />
+            <StatCard icon={FileText} label={t("dashboard.stat.certificates")} value={profile.certificates.length} />
+            <StatCard icon={Layers} label={t("dashboard.stat.skills")} value={profile.skills.length} />
           </div>
 
           <div className="mt-6 grid gap-6 lg:grid-cols-[1.3fr_1fr]">
             <Card>
               <div className="flex items-center justify-between">
                 <h2 className="font-display text-lg font-medium text-ink">
-                  Profile completion
+                  {t("dashboard.completion")}
                 </h2>
                 <span className="stat-figure text-lg font-semibold text-ink">
                   {percent}%
@@ -152,13 +153,13 @@ function DashboardContent() {
                 </ul>
               ) : (
                 <p className="mt-5 text-sm text-teal">
-                  Your profile is complete — nice work.
+                  {t("dashboard.profileComplete")}
                 </p>
               )}
 
               <Link href="/editor?section=overview">
                 <Button className="mt-6" size="sm">
-                  Complete my profile
+                  {t("dashboard.completeProfile")}
                 </Button>
               </Link>
             </Card>
@@ -170,14 +171,14 @@ function DashboardContent() {
                     <FileText className="h-4 w-4" />
                   </span>
                   <div>
-                    <p className="text-sm font-medium text-ink">Resume status</p>
+                    <p className="text-sm font-medium text-ink">{t("dashboard.resumeStatus")}</p>
                     <p className="text-xs text-ink-soft">
-                      Template: {profile.resumeSettings.templateId}
+                      {t("dashboard.template")}: {profile.resumeSettings.templateId}
                     </p>
                   </div>
                 </div>
                 <Link href="/resume" className="text-xs font-medium text-teal hover:underline">
-                  Open →
+                  {t("dashboard.open")}
                 </Link>
               </Card>
 
@@ -187,13 +188,13 @@ function DashboardContent() {
                     <Globe2 className="h-4 w-4" />
                   </span>
                   <div>
-                    <p className="text-sm font-medium text-ink">Portfolio status</p>
+                    <p className="text-sm font-medium text-ink">{t("dashboard.portfolioStatus")}</p>
                     <p className="text-xs text-ink-soft">
                       {profile.portfolioSettings.username
                         ? profile.portfolioSettings.isPublished
-                          ? `Live at /portfolio/${profile.portfolioSettings.username}`
-                          : "Draft — not published"
-                        : "Username not set"}
+                          ? `${t("dashboard.liveAt")} /portfolio/${profile.portfolioSettings.username}`
+                          : t("dashboard.draft")
+                        : t("dashboard.usernameNotSet")}
                     </p>
                   </div>
                 </div>
@@ -201,7 +202,7 @@ function DashboardContent() {
                   href="/portfolio/settings"
                   className="text-xs font-medium text-teal hover:underline"
                 >
-                  Open →
+                  {t("dashboard.open")}
                 </Link>
               </Card>
 
@@ -210,9 +211,9 @@ function DashboardContent() {
                   <BookOpen className="h-4 w-4" />
                 </span>
                 <div>
-                  <p className="text-sm font-medium text-ink">Education entries</p>
+                  <p className="text-sm font-medium text-ink">{t("dashboard.educationEntries")}</p>
                   <p className="text-xs text-ink-soft">
-                    {profile.education.length} on record
+                    {profile.education.length} {t("dashboard.onRecord")}
                   </p>
                 </div>
               </Card>

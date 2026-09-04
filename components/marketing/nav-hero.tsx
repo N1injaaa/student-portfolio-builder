@@ -83,6 +83,7 @@ export function Hero() {
 }
 
 function TranscriptCard() {
+  const { t } = useLanguage();
   return (
     <div className="relative flex items-center justify-center animate-rise-in [animation-delay:150ms]">
       <div className="ledger-card relative w-full max-w-sm -rotate-1 bg-surface p-6 shadow-xl">
@@ -90,37 +91,37 @@ function TranscriptCard() {
           className="absolute -right-4 -top-4 flex h-16 w-16 -rotate-6 items-center justify-center rounded-full border-2 border-gold bg-paper text-center text-[9px] font-semibold uppercase tracking-wide text-gold animate-stamp-in [animation-delay:600ms]"
           aria-hidden="true"
         >
-          Ready to submit
+          {t("hero.card.readyToSubmit")}
         </div>
 
         <p className="text-xs font-semibold uppercase tracking-widest text-ink-soft">
-          Applicant record
+          {t("hero.card.applicantRecord")}
         </p>
         <p className="font-display text-xl font-semibold text-ink">Alex Johnson</p>
-        <p className="text-sm text-ink-soft">Computer Science Student</p>
+        <p className="text-sm text-ink-soft">{t("hero.card.role")}</p>
 
         <div className="my-5 border-t border-dashed border-rule" />
 
         <dl className="space-y-3 text-sm">
           <div className="leader">
-            <dt className="text-ink-soft">Profile completion</dt>
+            <dt className="text-ink-soft">{t("hero.card.profileCompletion")}</dt>
             <dd className="stat-figure font-medium text-ink">92%</dd>
           </div>
           <div className="leader">
-            <dt className="text-ink-soft">Projects listed</dt>
+            <dt className="text-ink-soft">{t("hero.card.projectsListed")}</dt>
             <dd className="stat-figure font-medium text-ink">03</dd>
           </div>
           <div className="leader">
-            <dt className="text-ink-soft">Achievements</dt>
+            <dt className="text-ink-soft">{t("hero.card.achievements")}</dt>
             <dd className="stat-figure font-medium text-ink">03</dd>
           </div>
           <div className="leader">
-            <dt className="text-ink-soft">Resume status</dt>
-            <dd className="stat-figure font-medium text-teal">Exported</dd>
+            <dt className="text-ink-soft">{t("hero.card.resumeStatus")}</dt>
+            <dd className="stat-figure font-medium text-teal">{t("hero.card.exported")}</dd>
           </div>
           <div className="leader">
-            <dt className="text-ink-soft">Portfolio</dt>
-            <dd className="stat-figure font-medium text-teal">Live</dd>
+            <dt className="text-ink-soft">{t("hero.card.portfolio")}</dt>
+            <dd className="stat-figure font-medium text-teal">{t("hero.card.live")}</dd>
           </div>
         </dl>
       </div>

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { Logo } from "@/components/layout/logo";
 import { LanguageSwitcher } from "@/components/layout/language-switcher";
+import { ThemeToggle } from "@/components/layout/theme-toggle";
 import { useLanguage } from "@/lib/i18n/context";
 
 export function MarketingNav() {
@@ -22,6 +23,7 @@ export function MarketingNav() {
         </nav>
         <div className="flex items-center gap-3">
           <LanguageSwitcher />
+          <ThemeToggle />
           <Link
             href="/dashboard"
             className="hidden text-sm font-medium text-ink-soft hover:text-ink sm:block"

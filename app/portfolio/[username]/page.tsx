@@ -59,7 +59,7 @@ export default async function PublicPortfolioPage({
   return (
     <div className="relative">
       <PortfolioViewTracker ownerId={row.user_id} />
-      <DownloadResumeButton profile={profile} ownerId={row.user_id} />
+      <DownloadResumeButton profile={profile} ownerId={row.user_id} isPro={row.is_pro} />
       <PortfolioView profile={profile} isPro={row.is_pro} />
     </div>
   );

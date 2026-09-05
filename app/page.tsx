@@ -121,27 +121,7 @@ function TemplatesSection() {
           {templateNames.map((name, idx) => (
             <div key={name} className="group">
               <div className="ledger-card aspect-[3/4] overflow-hidden p-4 transition-transform group-hover:-translate-y-1">
-                <div className="h-2 w-2/3 rounded-full bg-ink/80" />
-                <div className="mt-2 h-1.5 w-1/3 rounded-full bg-gold" />
-                <div className="mt-4 space-y-1.5">
-                  {Array.from({ length: 6 }).map((_, i) => (
-                    <div
-                      key={i}
-                      className="h-1 rounded-full bg-rule"
-                      style={{ width: `${90 - i * 8}%` }}
-                    />
-                  ))}
-                </div>
-                <div className="mt-4 h-1.5 w-1/2 rounded-full bg-ink/60" />
-                <div className="mt-3 space-y-1.5">
-                  {Array.from({ length: 4 }).map((_, i) => (
-                    <div
-                      key={i}
-                      className="h-1 rounded-full bg-rule"
-                      style={{ width: `${80 - i * 10}%` }}
-                    />
-                  ))}
-                </div>
+                <TemplateMockup index={idx} />
               </div>
               <p className="mt-3 font-display text-sm font-medium text-ink">{name}</p>
               <p className="text-xs text-ink-soft">{t(`landing.templates.note${idx}`)}</p>
@@ -150,6 +130,101 @@ function TemplatesSection() {
         </div>
       </div>
     </section>
+  );
+}
+
+function TemplateMockup({ index }: { index: number }) {
+  // Minimal — quiet type, generous margins: single column, airy spacing.
+  if (index === 0) {
+    return (
+      <>
+        <div className="h-2 w-2/3 rounded-full bg-ink/70" />
+        <div className="mt-2 h-1 w-1/4 rounded-full bg-gold" />
+        <div className="mt-5 space-y-2">
+          {Array.from({ length: 4 }).map((_, i) => (
+            <div key={i} className="h-1 rounded-full bg-rule" style={{ width: `${85 - i * 10}%` }} />
+          ))}
+        </div>
+        <div className="mt-6 h-1.5 w-1/2 rounded-full bg-ink/50" />
+        <div className="mt-3 space-y-2">
+          {Array.from({ length: 3 }).map((_, i) => (
+            <div key={i} className="h-1 rounded-full bg-rule" style={{ width: `${75 - i * 12}%` }} />
+          ))}
+        </div>
+      </>
+    );
+  }
+
+  // Modern — bold accent header block, tighter body.
+  if (index === 1) {
+    return (
+      <>
+        <div className="h-6 w-full rounded-sm bg-ink" />
+        <div className="mt-1.5 h-1.5 w-1/3 rounded-full bg-gold" />
+        <div className="mt-4 space-y-1.5">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <div key={i} className="h-1 rounded-full bg-rule" style={{ width: `${92 - i * 7}%` }} />
+          ))}
+        </div>
+        <div className="mt-4 h-1.5 w-2/5 rounded-full bg-gold" />
+        <div className="mt-3 space-y-1.5">
+          {Array.from({ length: 4 }).map((_, i) => (
+            <div key={i} className="h-1 rounded-full bg-rule" style={{ width: `${80 - i * 9}%` }} />
+          ))}
+        </div>
+      </>
+    );
+  }
+
+  // Academic — serif transcript style: double rule under the name, then
+  // dense label / date rows like a course transcript.
+  if (index === 2) {
+    return (
+      <>
+        <div className="h-2 w-2/3 rounded-full bg-ink/80" />
+        <div className="mt-2 border-t-2 border-double border-ink/40" />
+        <div className="mt-4 space-y-2.5">
+          {Array.from({ length: 5 }).map((_, i) => (
+            <div key={i} className="flex items-center justify-between">
+              <div className="h-1 rounded-full bg-rule" style={{ width: `${55 - i * 4}%` }} />
+              <div className="h-1 w-8 rounded-full bg-ink/30" />
+            </div>
+          ))}
+        </div>
+        <div className="mt-4 border-t border-rule" />
+        <div className="mt-3 space-y-2.5">
+          {Array.from({ length: 3 }).map((_, i) => (
+            <div key={i} className="flex items-center justify-between">
+              <div className="h-1 rounded-full bg-rule" style={{ width: `${50 - i * 5}%` }} />
+              <div className="h-1 w-6 rounded-full bg-ink/30" />
+            </div>
+          ))}
+        </div>
+      </>
+    );
+  }
+
+  // Professional — two-column, dense: narrow left rail + wider right column.
+  return (
+    <div className="flex h-full gap-3">
+      <div className="w-1/3 space-y-2 border-r border-rule pr-3">
+        <div className="h-6 w-6 rounded-full bg-ink/60" />
+        <div className="h-1 w-full rounded-full bg-rule" />
+        <div className="h-1 w-4/5 rounded-full bg-rule" />
+        <div className="mt-4 h-1.5 w-2/3 rounded-full bg-gold" />
+        {Array.from({ length: 4 }).map((_, i) => (
+          <div key={i} className="h-1 rounded-full bg-rule" style={{ width: `${90 - i * 12}%` }} />
+        ))}
+      </div>
+      <div className="flex-1 space-y-2">
+        <div className="h-2 w-3/4 rounded-full bg-ink/80" />
+        <div className="mt-3 space-y-1.5">
+          {Array.from({ length: 7 }).map((_, i) => (
+            <div key={i} className="h-1 rounded-full bg-rule" style={{ width: `${95 - i * 9}%` }} />
+          ))}
+        </div>
+      </div>
+    </div>
   );
 }
 

@@ -151,7 +151,7 @@ function EditorContent() {
                     <PortfolioView profile={profile} isPro={isPro} />
                   ) : (
                     <div className="py-4">
-                      <ResumePreview profile={profile} />
+                      <ResumePreview profile={profile} isPro={isPro} />
                     </div>
                   )}
                 </div>

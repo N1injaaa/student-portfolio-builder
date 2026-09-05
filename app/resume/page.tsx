@@ -93,7 +93,7 @@ function ResumeBuilderContent() {
         </div>
 
         <div className="min-w-0 overflow-x-auto rounded-lg bg-surface-raised p-4 sm:p-8">
-          <ResumePreview ref={previewRef} profile={profile} />
+          <ResumePreview ref={previewRef} profile={profile} isPro={isPro} />
         </div>
       </div>
     </main>

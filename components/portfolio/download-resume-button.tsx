@@ -13,9 +13,11 @@ import type { Profile } from "@/types/profile";
 export function DownloadResumeButton({
   profile,
   ownerId,
+  isPro = false,
 }: {
   profile: Profile;
   ownerId: string;
+  isPro?: boolean;
 }) {
   const hiddenResumeRef = useRef<HTMLDivElement>(null);
   const [exporting, setExporting] = useState(false);
@@ -49,7 +51,7 @@ export function DownloadResumeButton({
       </div>
 
       <div className="pointer-events-none fixed -left-[9999px] top-0 opacity-0">
-        <ResumePreview ref={hiddenResumeRef} profile={profile} />
+        <ResumePreview ref={hiddenResumeRef} profile={profile} isPro={isPro} />
       </div>
     </>
   );

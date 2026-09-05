@@ -9,13 +9,18 @@ import { MinimalTemplate } from "@/components/resume/templates/minimal-template"
 import { ModernTemplate } from "@/components/resume/templates/modern-template";
 import { AcademicTemplate } from "@/components/resume/templates/academic-template";
 import { ProfessionalTemplate } from "@/components/resume/templates/professional-template";
+import { SITE_NAME } from "@/lib/site-config";
 
 interface ResumePreviewProps {
   profile: Profile;
+  /** Hides the small "Made with..." footer line for paid accounts. Defaults
+   * to false so any existing call site keeps showing it unless explicitly
+   * told the owner is on Pro — same convention as PortfolioView's isPro. */
+  isPro?: boolean;
 }
 
 export const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>(
-  ({ profile }, ref) => {
+  ({ profile, isPro = false }, ref) => {
     const settings = profile.resumeSettings;
 
     const style: React.CSSProperties & { "--resume-gap": string } = {
@@ -43,6 +48,20 @@ export const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>(
         )}
         {settings.templateId === "professional" && (
           <ProfessionalTemplate profile={profile} settings={settings} />
+        )}
+
+        {!isPro && (
+          <p
+            style={{
+              textAlign: "center",
+              padding: "10px 24px 16px",
+              fontSize: "8px",
+              color: "#9a9a9a",
+              letterSpacing: "0.02em",
+            }}
+          >
+            Made with {SITE_NAME}
+          </p>
         )}
       </div>
     );

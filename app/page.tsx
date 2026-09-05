@@ -352,6 +352,15 @@ function Footer() {
           {t("landing.footer.createdBy")} <span className="font-medium text-ink">{SITE_AUTHOR}</span>
         </p>
         <p className="mt-1">{copyrightLine()}</p>
+        <p className="mt-3 flex items-center justify-center gap-3">
+          <Link href="/privacy" className="hover:text-ink hover:underline">
+            Privacy Policy
+          </Link>
+          <span aria-hidden="true">·</span>
+          <Link href="/terms" className="hover:text-ink hover:underline">
+            Terms of Service
+          </Link>
+        </p>
       </div>
     </footer>
   );

@@ -3,6 +3,7 @@
 
 export const SITE_AUTHOR = "Berkinbaev Nurgeldi"; // TODO: replace with your full name
 export const SITE_NAME = "Vitafolio";
+export const CONTACT_EMAIL = "berkinbaevnurgeldi@gmail.com"; // TODO: replace if you use a different support inbox
 
 export function copyrightLine() {
   const year = new Date().getFullYear();

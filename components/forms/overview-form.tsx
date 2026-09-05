@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Check } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Input, Label, Textarea, FieldError } from "@/components/ui/input";
+import { PhotoUpload } from "@/components/forms/photo-upload";
 import { useProfileStore } from "@/lib/store";
 import { overviewSchema } from "@/lib/validation";
 import type { Overview } from "@/types/profile";
@@ -20,6 +21,7 @@ export function OverviewForm() {
     register,
     watch,
     reset,
+    setValue,
     formState: { errors },
   } = useForm<Overview>({
     resolver: zodResolver(overviewSchema),
@@ -83,16 +85,21 @@ export function OverviewForm() {
           </div>
 
           <div>
-            <Label htmlFor="photoUrl">Profile photo URL</Label>
+            <Label htmlFor="photoUrl">Profile photo</Label>
+            <div className="mt-1.5">
+              <PhotoUpload
+                photoUrl={watch("photoUrl")}
+                onUploaded={(url) => setValue("photoUrl", url, { shouldDirty: true, shouldValidate: true })}
+              />
+            </div>
+            <p className="mt-2 mb-1.5 text-xs text-ink-soft">
+              Or paste an image link instead:
+            </p>
             <Input
               id="photoUrl"
               {...register("photoUrl")}
               placeholder="https://example.com/photo.jpg"
             />
-            <p className="mt-1 text-xs text-ink-soft">
-              Paste an image link. File uploads aren&rsquo;t needed — a URL keeps your data
-              portable.
-            </p>
           </div>
 
           <div>

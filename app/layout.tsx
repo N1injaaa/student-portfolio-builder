@@ -7,6 +7,9 @@ import { SITE_NAME } from "@/lib/site-config";
 import "./globals.css";
 
 export const metadata: Metadata = {
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL || "https://vitafolio.vercel.app"
+  ),
   title: SITE_NAME,
   description:
     "Build a professional resume and portfolio for university and job applications.",

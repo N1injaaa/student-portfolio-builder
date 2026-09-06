@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import { Loader2, Upload } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { useProfileStore } from "@/lib/store";
+import { useLanguage } from "@/lib/i18n/context";
 import { toast } from "@/lib/toast-store";
 
 const MAX_SIZE_BYTES = 3 * 1024 * 1024; // 3MB — plenty for a profile photo, keeps uploads fast.
@@ -20,6 +21,7 @@ export function PhotoUpload({ photoUrl, onUploaded }: PhotoUploadProps) {
   const userId = useProfileStore((s) => s.userId);
   const [uploading, setUploading] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+  const { t } = useLanguage();
 
   async function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
@@ -87,7 +89,7 @@ export function PhotoUpload({ photoUrl, onUploaded }: PhotoUploadProps) {
         ) : (
           <Upload className="h-3.5 w-3.5" />
         )}
-        {uploading ? "Uploading…" : "Upload photo"}
+        {uploading ? t("field.uploading") : t("field.uploadPhoto")}
       </button>
       <input
         ref={inputRef}

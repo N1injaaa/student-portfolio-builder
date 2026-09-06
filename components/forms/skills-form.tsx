@@ -5,6 +5,7 @@ import { EntryListEditor } from "@/components/forms/entry-list-editor";
 import { Input, Label, Select, FieldError } from "@/components/ui/input";
 import { Badge } from "@/components/ui/card";
 import { useProfileStore } from "@/lib/store";
+import { useLanguage } from "@/lib/i18n/context";
 import { skillSchema } from "@/lib/validation";
 import type { Skill } from "@/types/profile";
 
@@ -12,6 +13,7 @@ const levels: Skill["level"][] = ["Beginner", "Intermediate", "Advanced", "Exper
 
 export function SkillsForm() {
   const items = useProfileStore((s) => s.profile.skills);
+  const { t } = useLanguage();
 
   return (
     <EntryListEditor<Skill>
@@ -26,16 +28,16 @@ export function SkillsForm() {
       renderFields={({ register, errors }) => (
         <div className="grid gap-4 sm:grid-cols-3">
           <div>
-            <Label htmlFor="name">Skill name</Label>
+            <Label htmlFor="name">{t("field.skillName")}</Label>
             <Input id="name" {...register("name")} placeholder="Python" />
             <FieldError message={errors.name?.message as string} />
           </div>
           <div>
-            <Label htmlFor="category">Category</Label>
+            <Label htmlFor="category">{t("field.category")}</Label>
             <Input id="category" {...register("category")} placeholder="Languages" />
           </div>
           <div>
-            <Label htmlFor="level">Level</Label>
+            <Label htmlFor="level">{t("field.level")}</Label>
             <Select id="level" {...register("level")}>
               {levels.map((l) => (
                 <option key={l} value={l}>

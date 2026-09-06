@@ -5,6 +5,7 @@ import { EntryListEditor } from "@/components/forms/entry-list-editor";
 import { Input, Label, Select, FieldError } from "@/components/ui/input";
 import { Badge } from "@/components/ui/card";
 import { useProfileStore } from "@/lib/store";
+import { useLanguage } from "@/lib/i18n/context";
 import { languageSchema } from "@/lib/validation";
 import type { Language } from "@/types/profile";
 
@@ -12,6 +13,7 @@ const levels: Language["level"][] = ["Native", "Fluent", "Advanced", "Intermedia
 
 export function LanguagesForm() {
   const items = useProfileStore((s) => s.profile.languages);
+  const { t } = useLanguage();
 
   return (
     <EntryListEditor<Language>
@@ -26,12 +28,12 @@ export function LanguagesForm() {
       renderFields={({ register, errors }) => (
         <div className="grid gap-4 sm:grid-cols-2">
           <div>
-            <Label htmlFor="language">Language</Label>
+            <Label htmlFor="language">{t("field.language")}</Label>
             <Input id="language" {...register("language")} placeholder="Spanish" />
             <FieldError message={errors.language?.message as string} />
           </div>
           <div>
-            <Label htmlFor="level">Level</Label>
+            <Label htmlFor="level">{t("field.level")}</Label>
             <Select id="level" {...register("level")}>
               {levels.map((l) => (
                 <option key={l} value={l}>

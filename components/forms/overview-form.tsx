@@ -8,6 +8,7 @@ import { Card } from "@/components/ui/card";
 import { Input, Label, Textarea, FieldError } from "@/components/ui/input";
 import { PhotoUpload } from "@/components/forms/photo-upload";
 import { useProfileStore } from "@/lib/store";
+import { useLanguage } from "@/lib/i18n/context";
 import { overviewSchema } from "@/lib/validation";
 import type { Overview } from "@/types/profile";
 
@@ -16,6 +17,7 @@ export function OverviewForm() {
   const updateOverview = useProfileStore((s) => s.updateOverview);
   const [savedAt, setSavedAt] = useState<number | null>(null);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const { t } = useLanguage();
 
   const {
     register,
@@ -53,14 +55,14 @@ export function OverviewForm() {
     <div>
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="font-display text-lg font-medium text-ink">Overview</h2>
+          <h2 className="font-display text-lg font-medium text-ink">{t("form.overview.title")}</h2>
           <p className="mt-1 text-sm text-ink-soft">
-            This information appears at the top of your resume and portfolio.
+            {t("form.overview.subtitle")}
           </p>
         </div>
         {savedAt && (
           <span className="flex items-center gap-1 text-xs text-teal">
-            <Check className="h-3.5 w-3.5" /> Saved
+            <Check className="h-3.5 w-3.5" /> {t("form.overview.saved")}
           </span>
         )}
       </div>
@@ -69,12 +71,12 @@ export function OverviewForm() {
         <form className="space-y-4">
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
-              <Label htmlFor="fullName">Full name</Label>
+              <Label htmlFor="fullName">{t("field.fullName")}</Label>
               <Input id="fullName" {...register("fullName")} placeholder="Alex Johnson" />
               <FieldError message={errors.fullName?.message} />
             </div>
             <div>
-              <Label htmlFor="headline">Headline</Label>
+              <Label htmlFor="headline">{t("field.headline")}</Label>
               <Input
                 id="headline"
                 {...register("headline")}
@@ -85,7 +87,7 @@ export function OverviewForm() {
           </div>
 
           <div>
-            <Label htmlFor="photoUrl">Profile photo</Label>
+            <Label htmlFor="photoUrl">{t("field.photo")}</Label>
             <div className="mt-1.5">
               <PhotoUpload
                 photoUrl={watch("photoUrl")}
@@ -93,7 +95,7 @@ export function OverviewForm() {
               />
             </div>
             <p className="mt-2 mb-1.5 text-xs text-ink-soft">
-              Or paste an image link instead:
+              {t("field.photoOr")}
             </p>
             <Input
               id="photoUrl"
@@ -103,7 +105,7 @@ export function OverviewForm() {
           </div>
 
           <div>
-            <Label htmlFor="bio">Short bio</Label>
+            <Label htmlFor="bio">{t("field.bio")}</Label>
             <Textarea
               id="bio"
               {...register("bio")}
@@ -114,28 +116,28 @@ export function OverviewForm() {
 
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
-              <Label htmlFor="location">Location</Label>
+              <Label htmlFor="location">{t("field.location")}</Label>
               <Input id="location" {...register("location")} placeholder="Austin, Texas" />
             </div>
             <div>
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email">{t("field.email")}</Label>
               <Input id="email" {...register("email")} placeholder="you@example.com" />
               <FieldError message={errors.email?.message} />
             </div>
             <div>
-              <Label htmlFor="phone">Phone</Label>
+              <Label htmlFor="phone">{t("field.phone")}</Label>
               <Input id="phone" {...register("phone")} placeholder="+1 (555) 000-0000" />
             </div>
             <div>
-              <Label htmlFor="website">Website</Label>
+              <Label htmlFor="website">{t("field.website")}</Label>
               <Input id="website" {...register("website")} placeholder="yourname.dev" />
             </div>
             <div>
-              <Label htmlFor="linkedin">LinkedIn</Label>
+              <Label htmlFor="linkedin">{t("field.linkedin")}</Label>
               <Input id="linkedin" {...register("linkedin")} placeholder="linkedin.com/in/you" />
             </div>
             <div>
-              <Label htmlFor="github">GitHub</Label>
+              <Label htmlFor="github">{t("field.github")}</Label>
               <Input id="github" {...register("github")} placeholder="github.com/you" />
             </div>
           </div>

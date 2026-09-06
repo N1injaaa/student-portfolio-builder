@@ -5,11 +5,13 @@ import { EntryListEditor } from "@/components/forms/entry-list-editor";
 import { Input, Label, Textarea, FieldError } from "@/components/ui/input";
 import { Badge } from "@/components/ui/card";
 import { useProfileStore } from "@/lib/store";
+import { useLanguage } from "@/lib/i18n/context";
 import { projectSchema } from "@/lib/validation";
 import type { Project } from "@/types/profile";
 
 export function ProjectsForm() {
   const items = useProfileStore((s) => s.profile.projects);
+  const { t } = useLanguage();
 
   return (
     <EntryListEditor<Project>
@@ -32,12 +34,12 @@ export function ProjectsForm() {
       renderFields={({ register, errors }) => (
         <>
           <div>
-            <Label htmlFor="name">Project name</Label>
+            <Label htmlFor="name">{t("field.projectName")}</Label>
             <Input id="name" {...register("name")} placeholder="AI Study Planner" />
             <FieldError message={errors.name?.message as string} />
           </div>
           <div>
-            <Label htmlFor="description">Description</Label>
+            <Label htmlFor="description">{t("field.description")}</Label>
             <Textarea
               id="description"
               {...register("description")}
@@ -45,7 +47,7 @@ export function ProjectsForm() {
             />
           </div>
           <div>
-            <Label htmlFor="technologies">Technologies</Label>
+            <Label htmlFor="technologies">{t("field.technologies")}</Label>
             <Input
               id="technologies"
               {...register("technologies")}
@@ -54,16 +56,16 @@ export function ProjectsForm() {
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
-              <Label htmlFor="githubUrl">GitHub URL</Label>
+              <Label htmlFor="githubUrl">{t("field.githubUrl")}</Label>
               <Input id="githubUrl" {...register("githubUrl")} placeholder="github.com/you/project" />
             </div>
             <div>
-              <Label htmlFor="liveUrl">Live URL</Label>
+              <Label htmlFor="liveUrl">{t("field.liveUrl")}</Label>
               <Input id="liveUrl" {...register("liveUrl")} placeholder="project.yourname.dev" />
             </div>
           </div>
           <div>
-            <Label htmlFor="imageUrl">Project image URL</Label>
+            <Label htmlFor="imageUrl">{t("field.imageUrl")}</Label>
             <Input id="imageUrl" {...register("imageUrl")} placeholder="https://example.com/screenshot.png" />
           </div>
         </>

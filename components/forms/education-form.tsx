@@ -4,12 +4,14 @@ import { GraduationCap } from "lucide-react";
 import { EntryListEditor } from "@/components/forms/entry-list-editor";
 import { Input, Label, Textarea, FieldError } from "@/components/ui/input";
 import { useProfileStore } from "@/lib/store";
+import { useLanguage } from "@/lib/i18n/context";
 import { educationSchema } from "@/lib/validation";
 import { formatDateRange } from "@/lib/utils";
 import type { Education } from "@/types/profile";
 
 export function EducationForm() {
   const items = useProfileStore((s) => s.profile.education);
+  const { t } = useLanguage();
 
   return (
     <EntryListEditor<Education>
@@ -33,32 +35,32 @@ export function EducationForm() {
         <>
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
-              <Label htmlFor="school">School / University</Label>
+              <Label htmlFor="school">{t("field.school")}</Label>
               <Input id="school" {...register("school")} placeholder="University of Texas at Austin" />
               <FieldError message={errors.school?.message as string} />
             </div>
             <div>
-              <Label htmlFor="degree">Degree / Grade</Label>
+              <Label htmlFor="degree">{t("field.degree")}</Label>
               <Input id="degree" {...register("degree")} placeholder="B.S. in Computer Science" />
               <FieldError message={errors.degree?.message as string} />
             </div>
           </div>
           <div className="grid gap-4 sm:grid-cols-3">
             <div>
-              <Label htmlFor="startDate">Start date</Label>
+              <Label htmlFor="startDate">{t("field.startDate")}</Label>
               <Input id="startDate" {...register("startDate")} placeholder="2022" />
             </div>
             <div>
-              <Label htmlFor="endDate">End date</Label>
+              <Label htmlFor="endDate">{t("field.endDate")}</Label>
               <Input id="endDate" {...register("endDate")} placeholder="2026" />
             </div>
             <div>
-              <Label htmlFor="gpa">GPA</Label>
+              <Label htmlFor="gpa">{t("field.gpa")}</Label>
               <Input id="gpa" {...register("gpa")} placeholder="3.85 / 4.0" />
             </div>
           </div>
           <div>
-            <Label htmlFor="description">Description</Label>
+            <Label htmlFor="description">{t("field.description")}</Label>
             <Textarea id="description" {...register("description")} placeholder="Relevant coursework, honors, activities…" />
           </div>
         </>

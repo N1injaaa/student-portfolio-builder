@@ -4,12 +4,14 @@ import { Users } from "lucide-react";
 import { EntryListEditor } from "@/components/forms/entry-list-editor";
 import { Input, Label, Textarea, FieldError } from "@/components/ui/input";
 import { useProfileStore } from "@/lib/store";
+import { useLanguage } from "@/lib/i18n/context";
 import { activitySchema } from "@/lib/validation";
 import { formatDateRange } from "@/lib/utils";
 import type { Activity } from "@/types/profile";
 
 export function ActivitiesForm() {
   const items = useProfileStore((s) => s.profile.activities);
+  const { t } = useLanguage();
 
   return (
     <EntryListEditor<Activity>
@@ -32,27 +34,27 @@ export function ActivitiesForm() {
         <>
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
-              <Label htmlFor="organization">Organization</Label>
+              <Label htmlFor="organization">{t("field.organization")}</Label>
               <Input id="organization" {...register("organization")} placeholder="Code for Austin" />
               <FieldError message={errors.organization?.message as string} />
             </div>
             <div>
-              <Label htmlFor="position">Position</Label>
+              <Label htmlFor="position">{t("field.position")}</Label>
               <Input id="position" {...register("position")} placeholder="Volunteer Developer" />
             </div>
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
-              <Label htmlFor="startDate">Start date</Label>
+              <Label htmlFor="startDate">{t("field.startDate")}</Label>
               <Input id="startDate" {...register("startDate")} placeholder="2023" />
             </div>
             <div>
-              <Label htmlFor="endDate">End date</Label>
+              <Label htmlFor="endDate">{t("field.endDate")}</Label>
               <Input id="endDate" {...register("endDate")} placeholder="Present" />
             </div>
           </div>
           <div>
-            <Label htmlFor="description">Description</Label>
+            <Label htmlFor="description">{t("field.description")}</Label>
             <Textarea id="description" {...register("description")} placeholder="What you did there" />
           </div>
         </>

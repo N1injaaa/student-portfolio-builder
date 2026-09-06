@@ -4,11 +4,13 @@ import { Award } from "lucide-react";
 import { EntryListEditor } from "@/components/forms/entry-list-editor";
 import { Input, Label, Textarea, FieldError } from "@/components/ui/input";
 import { useProfileStore } from "@/lib/store";
+import { useLanguage } from "@/lib/i18n/context";
 import { achievementSchema } from "@/lib/validation";
 import type { Achievement } from "@/types/profile";
 
 export function AchievementsForm() {
   const items = useProfileStore((s) => s.profile.achievements);
+  const { t } = useLanguage();
 
   return (
     <EntryListEditor<Achievement>
@@ -23,22 +25,22 @@ export function AchievementsForm() {
       renderFields={({ register, errors }) => (
         <>
           <div>
-            <Label htmlFor="title">Title</Label>
+            <Label htmlFor="title">{t("field.title")}</Label>
             <Input id="title" {...register("title")} placeholder="1st Place, HackTX Hackathon" />
             <FieldError message={errors.title?.message as string} />
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
-              <Label htmlFor="organization">Organization</Label>
+              <Label htmlFor="organization">{t("field.organization")}</Label>
               <Input id="organization" {...register("organization")} placeholder="HackTX" />
             </div>
             <div>
-              <Label htmlFor="date">Date</Label>
+              <Label htmlFor="date">{t("field.date")}</Label>
               <Input id="date" {...register("date")} placeholder="Nov 2025" />
             </div>
           </div>
           <div>
-            <Label htmlFor="description">Description</Label>
+            <Label htmlFor="description">{t("field.description")}</Label>
             <Textarea id="description" {...register("description")} placeholder="What you did and why it mattered" />
           </div>
         </>

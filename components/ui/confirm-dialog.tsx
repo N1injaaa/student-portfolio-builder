@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
+import { useLanguage } from "@/lib/i18n/context";
 
 interface ConfirmDialogProps {
   open: boolean;
@@ -16,10 +17,11 @@ export function ConfirmDialog({
   open,
   title,
   description,
-  confirmLabel = "Delete",
+  confirmLabel,
   onConfirm,
   onCancel,
 }: ConfirmDialogProps) {
+  const { t } = useLanguage();
   useEffect(() => {
     if (!open) return;
     function onKey(e: KeyboardEvent) {
@@ -51,10 +53,10 @@ export function ConfirmDialog({
         )}
         <div className="mt-6 flex justify-end gap-2">
           <Button variant="outline" size="sm" onClick={onCancel}>
-            Cancel
+            {t("common.cancel")}
           </Button>
           <Button variant="danger" size="sm" onClick={onConfirm}>
-            {confirmLabel}
+            {confirmLabel ?? t("common.delete")}
           </Button>
         </div>
       </div>

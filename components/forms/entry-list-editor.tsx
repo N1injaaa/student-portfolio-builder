@@ -12,6 +12,7 @@ import { EmptyState } from "@/components/ui/empty-state";
 import { ConfirmDialog } from "@/components/ui/confirm-dialog";
 import { useProfileStore, type ArrayKey } from "@/lib/store";
 import { newId } from "@/lib/utils";
+import { useLanguage } from "@/lib/i18n/context";
 import { toast } from "@/lib/toast-store";
 import type { LucideIcon } from "lucide-react";
 
@@ -48,6 +49,9 @@ export function EntryListEditor<T extends FieldValues & { id: string }>({
   const updateItem = useProfileStore((s) => s.updateItem);
   const removeItem = useProfileStore((s) => s.removeItem);
   const reorderItems = useProfileStore((s) => s.reorderItems);
+  const { t } = useLanguage();
+  const translatedLabel = t(`form.${arrayKey}.itemLabel`);
+  const label = translatedLabel === `form.${arrayKey}.itemLabel` ? itemLabel : translatedLabel;
 
   const [mode, setMode] = useState<"idle" | "add" | "edit">("idle");
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -161,7 +165,7 @@ export function EntryListEditor<T extends FieldValues & { id: string }>({
     const id = draftIdRef.current ?? editingId;
     if (mode === "edit" && id) {
       updateItem<T>(arrayKey, id, values);
-      toast({ title: `${itemLabel} updated`, variant: "success" });
+      toast({ title: `${label} ${t("entryEditor.updated")}`, variant: "success" });
     } else if (id) {
       // Already synced into the store live (or not, if the user filled
       // the form fast enough to beat the debounce) — either way, this
@@ -171,10 +175,10 @@ export function EntryListEditor<T extends FieldValues & { id: string }>({
       } else {
         addItem<T>(arrayKey, { ...values, id });
       }
-      toast({ title: `${itemLabel} added`, variant: "success" });
+      toast({ title: `${label} ${t("entryEditor.added")}`, variant: "success" });
     } else {
       addItem<T>(arrayKey, values);
-      toast({ title: `${itemLabel} added`, variant: "success" });
+      toast({ title: `${label} ${t("entryEditor.added")}`, variant: "success" });
     }
     closeEditor();
   }
@@ -182,7 +186,7 @@ export function EntryListEditor<T extends FieldValues & { id: string }>({
   function confirmDelete() {
     if (deleteTarget) {
       removeItem(arrayKey, deleteTarget);
-      toast({ title: `${itemLabel} removed` });
+      toast({ title: `${label} ${t("entryEditor.removed")}` });
     }
     setDeleteTarget(null);
   }
@@ -193,14 +197,23 @@ export function EntryListEditor<T extends FieldValues & { id: string }>({
   const visibleItems =
     mode === "idle" ? items : items.filter((item) => item.id !== draftIdRef.current);
 
+  const translatedEmptyTitle = t(`form.${arrayKey}.emptyTitle`);
+  const resolvedEmptyTitle =
+    translatedEmptyTitle === `form.${arrayKey}.emptyTitle` ? emptyTitle : translatedEmptyTitle;
+  const translatedEmptyDescription = t(`form.${arrayKey}.emptyDescription`);
+  const resolvedEmptyDescription =
+    translatedEmptyDescription === `form.${arrayKey}.emptyDescription`
+      ? emptyDescription
+      : translatedEmptyDescription;
+
   return (
     <div>
       <div className="flex items-center justify-between">
-        <h2 className="font-display text-lg font-medium text-ink">{itemLabel}s</h2>
+        <h2 className="font-display text-lg font-medium text-ink">{label}s</h2>
         {mode === "idle" && (
           <Button size="sm" onClick={startAdd}>
             <Plus className="h-3.5 w-3.5" />
-            Add {itemLabel.toLowerCase()}
+            {t("entryEditor.addPrefix")} {label.toLowerCase()}
           </Button>
         )}
       </div>
@@ -209,7 +222,9 @@ export function EntryListEditor<T extends FieldValues & { id: string }>({
         <Card className="mt-4 bg-surface-raised">
           <div className="mb-3 flex items-center justify-between">
             <span className="text-xs text-ink-soft">
-              {mode === "edit" ? `Editing ${itemLabel.toLowerCase()}` : `New ${itemLabel.toLowerCase()}`}
+              {mode === "edit"
+                ? `${t("entryEditor.editing")} ${label.toLowerCase()}`
+                : `${t("entryEditor.new")} ${label.toLowerCase()}`}
             </span>
             <span
               className={`flex items-center gap-1.5 text-xs text-ink-soft transition-opacity ${
@@ -217,21 +232,23 @@ export function EntryListEditor<T extends FieldValues & { id: string }>({
               }`}
             >
               <span className="h-1.5 w-1.5 rounded-full bg-teal" />
-              Updating preview…
+              {t("entryEditor.updatingPreview")}
             </span>
           </div>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             {renderFields({ register, errors, watch })}
             <div className="flex items-center justify-between gap-2 pt-1">
               <p className="text-xs text-ink-soft">
-                Changes show in the preview as you type.
+                {t("entryEditor.liveHint")}
               </p>
               <div className="flex shrink-0 gap-2">
                 <Button type="button" variant="outline" size="sm" onClick={cancel}>
-                  Cancel
+                  {t("common.cancel")}
                 </Button>
                 <Button type="submit" size="sm">
-                  {mode === "edit" ? "Save changes" : `Add ${itemLabel.toLowerCase()}`}
+                  {mode === "edit"
+                    ? t("entryEditor.saveChanges")
+                    : `${t("entryEditor.addPrefix")} ${label.toLowerCase()}`}
                 </Button>
               </div>
             </div>
@@ -243,9 +260,9 @@ export function EntryListEditor<T extends FieldValues & { id: string }>({
         {items.length === 0 && mode === "idle" && (
           <EmptyState
             icon={Icon}
-            title={emptyTitle}
-            description={emptyDescription}
-            actionLabel={`+ Add your first ${itemLabel.toLowerCase()}`}
+            title={resolvedEmptyTitle}
+            description={resolvedEmptyDescription}
+            actionLabel={`${t("entryEditor.addFirstPrefix")} ${label.toLowerCase()}`}
             onAction={startAdd}
           />
         )}
@@ -260,7 +277,7 @@ export function EntryListEditor<T extends FieldValues & { id: string }>({
                   className="focus-ring rounded p-1.5 text-ink-soft hover:text-ink disabled:opacity-30"
                   onClick={() => reorderItems(arrayKey, index, index - 1)}
                   disabled={index === 0}
-                  aria-label={`Move ${itemLabel.toLowerCase()} up`}
+                  aria-label={`Move ${label.toLowerCase()} up`}
                 >
                   <ChevronUp className="h-4 w-4" />
                 </button>
@@ -268,21 +285,21 @@ export function EntryListEditor<T extends FieldValues & { id: string }>({
                   className="focus-ring rounded p-1.5 text-ink-soft hover:text-ink disabled:opacity-30"
                   onClick={() => reorderItems(arrayKey, index, index + 1)}
                   disabled={index === items.length - 1}
-                  aria-label={`Move ${itemLabel.toLowerCase()} down`}
+                  aria-label={`Move ${label.toLowerCase()} down`}
                 >
                   <ChevronDown className="h-4 w-4" />
                 </button>
                 <button
                   className="focus-ring rounded p-1.5 text-ink-soft hover:text-ink"
                   onClick={() => startEdit(item)}
-                  aria-label={`Edit ${itemLabel.toLowerCase()}`}
+                  aria-label={`Edit ${label.toLowerCase()}`}
                 >
                   <Pencil className="h-4 w-4" />
                 </button>
                 <button
                   className="focus-ring rounded p-1.5 text-ink-soft hover:text-clay"
                   onClick={() => setDeleteTarget(item.id)}
-                  aria-label={`Delete ${itemLabel.toLowerCase()}`}
+                  aria-label={`Delete ${label.toLowerCase()}`}
                 >
                   <Trash2 className="h-4 w-4" />
                 </button>
@@ -294,8 +311,8 @@ export function EntryListEditor<T extends FieldValues & { id: string }>({
 
       <ConfirmDialog
         open={Boolean(deleteTarget)}
-        title={`Delete this ${itemLabel.toLowerCase()}?`}
-        description="This can't be undone."
+        title={`${t("entryEditor.deleteConfirmTitle")} ${label.toLowerCase()}${t("entryEditor.deleteConfirmSuffix")}`}
+        description={t("entryEditor.deleteConfirmDescription")}
         onConfirm={confirmDelete}
         onCancel={() => setDeleteTarget(null)}
       />

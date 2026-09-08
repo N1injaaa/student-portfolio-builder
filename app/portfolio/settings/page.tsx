@@ -238,7 +238,7 @@ function PortfolioSettingsContent() {
                 value={settings.accentColor}
                 onChange={(e) => updatePortfolioSettings({ accentColor: e.target.value })}
                 className="h-7 w-9 cursor-pointer rounded border border-rule bg-transparent"
-                aria-label="Custom accent color"
+                aria-label={t("a11y.customAccentColor")}
               />
             </div>
           </Card>

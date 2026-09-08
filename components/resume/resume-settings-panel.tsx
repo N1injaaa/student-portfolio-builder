@@ -6,29 +6,37 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input, Label, Select } from "@/components/ui/input";
 import { useProfileStore } from "@/lib/store";
+import { useLanguage } from "@/lib/i18n/context";
 import { cn } from "@/lib/utils";
 import { UPGRADE_URL } from "@/lib/upgrade";
 import type { ResumeTemplateId, ResumeSettings } from "@/types/profile";
 
 const FREE_VERSION_LIMIT = 1;
 
-const templates: { id: ResumeTemplateId; label: string; note: string; pro?: boolean }[] = [
-  { id: "minimal", label: "Minimal", note: "Quiet type, single column" },
-  { id: "modern", label: "Modern", note: "Bold accent header", pro: true },
-  { id: "academic", label: "Academic", note: "Serif, transcript-style", pro: true },
-  { id: "professional", label: "Professional", note: "Two-column, dense", pro: true },
+const templates: { id: ResumeTemplateId; noteKey: string; pro?: boolean }[] = [
+  { id: "minimal", noteKey: "resumeSettings.templateNote.minimal" },
+  { id: "modern", noteKey: "resumeSettings.templateNote.modern", pro: true },
+  { id: "academic", noteKey: "resumeSettings.templateNote.academic", pro: true },
+  { id: "professional", noteKey: "resumeSettings.templateNote.professional", pro: true },
 ];
+
+const templateDisplayNames: Record<ResumeTemplateId, string> = {
+  minimal: "Minimal",
+  modern: "Modern",
+  academic: "Academic",
+  professional: "Professional",
+};
 
 const accentPresets = ["#a57c1b", "#275c4f", "#1b2130", "#a5472f", "#3b5bab"];
 
-const sectionLabels: { key: keyof ResumeSettings["visibleSections"]; label: string }[] = [
-  { key: "education", label: "Education" },
-  { key: "projects", label: "Projects" },
-  { key: "achievements", label: "Achievements" },
-  { key: "skills", label: "Skills" },
-  { key: "languages", label: "Languages" },
-  { key: "certificates", label: "Certificates" },
-  { key: "activities", label: "Activities" },
+const sectionKeys: (keyof ResumeSettings["visibleSections"])[] = [
+  "education",
+  "projects",
+  "achievements",
+  "skills",
+  "languages",
+  "certificates",
+  "activities",
 ];
 
 export function ResumeSettingsPanel() {
@@ -41,6 +49,7 @@ export function ResumeSettingsPanel() {
   const switchToResumeVersion = useProfileStore((s) => s.switchToResumeVersion);
   const switchToDefaultResume = useProfileStore((s) => s.switchToDefaultResume);
   const deleteResumeVersion = useProfileStore((s) => s.deleteResumeVersion);
+  const { t } = useLanguage();
 
   const [isNaming, setIsNaming] = useState(false);
   const [newName, setNewName] = useState("");
@@ -66,11 +75,10 @@ export function ResumeSettingsPanel() {
     <div className="space-y-5">
       <Card>
         <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-ink-soft">
-          Resume versions
+          {t("resumeSettings.versionsTitle")}
         </p>
         <p className="mb-3 text-xs text-ink-soft">
-          Save the current template &amp; sections as a named version — handy for tailoring one
-          resume per application.
+          {t("resumeSettings.versionsHint")}
         </p>
         <div className="flex flex-wrap gap-1.5">
           <button
@@ -82,7 +90,7 @@ export function ResumeSettingsPanel() {
                 : "border-rule text-ink-soft hover:bg-surface-raised"
             )}
           >
-            Default
+            {t("resumeSettings.default")}
           </button>
           {versions.map((v) => (
             <span
@@ -98,7 +106,7 @@ export function ResumeSettingsPanel() {
               <button
                 onClick={() => deleteResumeVersion(v.id)}
                 className="rounded-full p-0.5 hover:text-clay"
-                aria-label={`Delete version ${v.name}`}
+                aria-label={`${t("resumeSettings.deleteVersion")} ${v.name}`}
               >
                 <Trash2 className="h-3 w-3" />
               </button>
@@ -110,17 +118,17 @@ export function ResumeSettingsPanel() {
           <div className="mt-3 flex items-center gap-2">
             <Input
               autoFocus
-              placeholder="e.g. Frontend internship"
+              placeholder={t("resumeSettings.namePlaceholder")}
               value={newName}
               onChange={(e) => setNewName(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && confirmSaveVersion()}
               className="h-8 text-xs"
             />
             <Button size="sm" onClick={confirmSaveVersion}>
-              Save
+              {t("common.save")}
             </Button>
             <Button size="sm" variant="outline" onClick={() => setIsNaming(false)}>
-              Cancel
+              {t("common.cancel")}
             </Button>
           </div>
         ) : (
@@ -129,43 +137,43 @@ export function ResumeSettingsPanel() {
             className="focus-ring mt-3 flex items-center gap-1 text-xs font-medium text-gold hover:underline"
           >
             <Plus className="h-3 w-3" />
-            Save as new version
+            {t("resumeSettings.saveAsNew")}
           </button>
         )}
         {!isPro && versions.length >= FREE_VERSION_LIMIT && (
           <p className="mt-2 text-xs text-ink-soft">
-            🔒 Free accounts keep 1 saved version.{" "}
+            {t("resumeSettings.freeLimitPrefix")}{" "}
             <a
               href={UPGRADE_URL}
               target="_blank"
               rel="noreferrer"
               className="font-medium text-gold underline underline-offset-2"
             >
-              Upgrade
+              {t("resumeSettings.upgrade")}
             </a>{" "}
-            for more.
+            {t("resumeSettings.freeLimitSuffix")}
           </p>
         )}
       </Card>
 
       <Card>
         <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-ink-soft">
-          Template
+          {t("resumeSettings.templateTitle")}
         </p>
         <div className="grid grid-cols-2 gap-2">
-          {templates.map((t) => {
-            const locked = t.pro && !isPro;
+          {templates.map((tpl) => {
+            const locked = tpl.pro && !isPro;
             return (
               <button
-                key={t.id}
+                key={tpl.id}
                 onClick={() =>
                   locked
                     ? window.open(UPGRADE_URL, "_blank")
-                    : updateResumeSettings({ templateId: t.id })
+                    : updateResumeSettings({ templateId: tpl.id })
                 }
                 className={cn(
                   "focus-ring relative rounded-md border px-3 py-2.5 text-left transition-colors",
-                  settings.templateId === t.id
+                  settings.templateId === tpl.id
                     ? "border-gold bg-gold-soft"
                     : "border-rule hover:bg-surface-raised"
                 )}
@@ -176,24 +184,24 @@ export function ResumeSettingsPanel() {
                   </span>
                 )}
                 <span className={cn("flex items-center justify-between text-sm font-medium text-ink", locked && "pr-4")}>
-                  {t.label}
-                  {settings.templateId === t.id && <Check className="h-3.5 w-3.5 text-gold" />}
+                  {templateDisplayNames[tpl.id]}
+                  {settings.templateId === tpl.id && <Check className="h-3.5 w-3.5 text-gold" />}
                 </span>
-                <span className="text-xs text-ink-soft">{t.note}</span>
+                <span className="text-xs text-ink-soft">{t(tpl.noteKey)}</span>
               </button>
             );
           })}
         </div>
         {!isPro && (
           <p className="mt-3 text-xs text-ink-soft">
-            🔒 3 more templates are available on{" "}
+            {t("resumeSettings.moreTemplatesPrefix")}{" "}
             <a
               href={UPGRADE_URL}
               target="_blank"
               rel="noreferrer"
               className="font-medium text-gold underline underline-offset-2"
             >
-              Pro
+              {t("resumeSettings.pro")}
             </a>
             .
           </p>
@@ -202,11 +210,11 @@ export function ResumeSettingsPanel() {
 
       <Card>
         <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-ink-soft">
-          Typography &amp; spacing
+          {t("resumeSettings.typographyTitle")}
         </p>
         <div className="space-y-3">
           <div>
-            <Label htmlFor="font">Font</Label>
+            <Label htmlFor="font">{t("resumeSettings.font")}</Label>
             <Select
               id="font"
               value={settings.font}
@@ -214,13 +222,13 @@ export function ResumeSettingsPanel() {
                 updateResumeSettings({ font: e.target.value as ResumeSettings["font"] })
               }
             >
-              <option value="sans">Sans</option>
-              <option value="serif">Serif</option>
-              <option value="mono">Mono</option>
+              <option value="sans">{t("resumeSettings.sans")}</option>
+              <option value="serif">{t("resumeSettings.serif")}</option>
+              <option value="mono">{t("resumeSettings.mono")}</option>
             </Select>
           </div>
           <div>
-            <Label htmlFor="fontSize">Font size</Label>
+            <Label htmlFor="fontSize">{t("resumeSettings.fontSize")}</Label>
             <Select
               id="fontSize"
               value={settings.fontSize}
@@ -228,13 +236,13 @@ export function ResumeSettingsPanel() {
                 updateResumeSettings({ fontSize: e.target.value as ResumeSettings["fontSize"] })
               }
             >
-              <option value="sm">Small</option>
-              <option value="md">Medium</option>
-              <option value="lg">Large</option>
+              <option value="sm">{t("resumeSettings.small")}</option>
+              <option value="md">{t("resumeSettings.medium")}</option>
+              <option value="lg">{t("resumeSettings.large")}</option>
             </Select>
           </div>
           <div>
-            <Label htmlFor="spacing">Spacing</Label>
+            <Label htmlFor="spacing">{t("resumeSettings.spacing")}</Label>
             <Select
               id="spacing"
               value={settings.spacing}
@@ -244,9 +252,9 @@ export function ResumeSettingsPanel() {
                 })
               }
             >
-              <option value="compact">Compact</option>
-              <option value="comfortable">Comfortable</option>
-              <option value="roomy">Roomy</option>
+              <option value="compact">{t("resumeSettings.compact")}</option>
+              <option value="comfortable">{t("resumeSettings.comfortable")}</option>
+              <option value="roomy">{t("resumeSettings.roomy")}</option>
             </Select>
           </div>
         </div>
@@ -254,7 +262,7 @@ export function ResumeSettingsPanel() {
 
       <Card>
         <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-ink-soft">
-          Accent color
+          {t("resumeSettings.accentColorTitle")}
         </p>
         <div className="flex flex-wrap items-center gap-2">
           {accentPresets.map((c) => (
@@ -266,7 +274,7 @@ export function ResumeSettingsPanel() {
                 settings.accentColor === c ? "border-ink" : "border-transparent"
               )}
               style={{ background: c }}
-              aria-label={`Use accent color ${c}`}
+              aria-label={`${t("resumeSettings.useAccentColor")} ${c}`}
             />
           ))}
           <input
@@ -274,27 +282,27 @@ export function ResumeSettingsPanel() {
             value={settings.accentColor}
             onChange={(e) => updateResumeSettings({ accentColor: e.target.value })}
             className="h-7 w-9 cursor-pointer rounded border border-rule bg-transparent"
-            aria-label="Custom accent color"
+            aria-label={t("a11y.customAccentColor")}
           />
         </div>
       </Card>
 
       <Card>
         <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-ink-soft">
-          Show / hide sections
+          {t("resumeSettings.sectionsTitle")}
         </p>
         <div className="space-y-2">
-          {sectionLabels.map((s) => (
-            <label key={s.key} className="flex items-center justify-between text-sm text-ink">
-              {s.label}
+          {sectionKeys.map((key) => (
+            <label key={key} className="flex items-center justify-between text-sm text-ink">
+              {t(`editor.section.${key}`)}
               <input
                 type="checkbox"
-                checked={settings.visibleSections[s.key]}
+                checked={settings.visibleSections[key]}
                 onChange={(e) =>
                   updateResumeSettings({
                     visibleSections: {
                       ...settings.visibleSections,
-                      [s.key]: e.target.checked,
+                      [key]: e.target.checked,
                     },
                   })
                 }

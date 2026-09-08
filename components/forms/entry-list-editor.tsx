@@ -52,6 +52,8 @@ export function EntryListEditor<T extends FieldValues & { id: string }>({
   const { t } = useLanguage();
   const translatedLabel = t(`form.${arrayKey}.itemLabel`);
   const label = translatedLabel === `form.${arrayKey}.itemLabel` ? itemLabel : translatedLabel;
+  const translatedHeading = t(`editor.section.${arrayKey}`);
+  const heading = translatedHeading === `editor.section.${arrayKey}` ? `${label}s` : translatedHeading;
 
   const [mode, setMode] = useState<"idle" | "add" | "edit">("idle");
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -209,7 +211,7 @@ export function EntryListEditor<T extends FieldValues & { id: string }>({
   return (
     <div>
       <div className="flex items-center justify-between">
-        <h2 className="font-display text-lg font-medium text-ink">{label}s</h2>
+        <h2 className="font-display text-lg font-medium text-ink">{heading}</h2>
         {mode === "idle" && (
           <Button size="sm" onClick={startAdd}>
             <Plus className="h-3.5 w-3.5" />
@@ -277,7 +279,7 @@ export function EntryListEditor<T extends FieldValues & { id: string }>({
                   className="focus-ring rounded p-1.5 text-ink-soft hover:text-ink disabled:opacity-30"
                   onClick={() => reorderItems(arrayKey, index, index - 1)}
                   disabled={index === 0}
-                  aria-label={`Move ${label.toLowerCase()} up`}
+                  aria-label={`${t("entryEditor.moveUp")} — ${label.toLowerCase()}`}
                 >
                   <ChevronUp className="h-4 w-4" />
                 </button>
@@ -285,21 +287,21 @@ export function EntryListEditor<T extends FieldValues & { id: string }>({
                   className="focus-ring rounded p-1.5 text-ink-soft hover:text-ink disabled:opacity-30"
                   onClick={() => reorderItems(arrayKey, index, index + 1)}
                   disabled={index === items.length - 1}
-                  aria-label={`Move ${label.toLowerCase()} down`}
+                  aria-label={`${t("entryEditor.moveDown")} — ${label.toLowerCase()}`}
                 >
                   <ChevronDown className="h-4 w-4" />
                 </button>
                 <button
                   className="focus-ring rounded p-1.5 text-ink-soft hover:text-ink"
                   onClick={() => startEdit(item)}
-                  aria-label={`Edit ${label.toLowerCase()}`}
+                  aria-label={`${t("entryEditor.edit")} — ${label.toLowerCase()}`}
                 >
                   <Pencil className="h-4 w-4" />
                 </button>
                 <button
                   className="focus-ring rounded p-1.5 text-ink-soft hover:text-clay"
                   onClick={() => setDeleteTarget(item.id)}
-                  aria-label={`Delete ${label.toLowerCase()}`}
+                  aria-label={`${t("entryEditor.delete")} — ${label.toLowerCase()}`}
                 >
                   <Trash2 className="h-4 w-4" />
                 </button>
@@ -311,7 +313,7 @@ export function EntryListEditor<T extends FieldValues & { id: string }>({
 
       <ConfirmDialog
         open={Boolean(deleteTarget)}
-        title={`${t("entryEditor.deleteConfirmTitle")} ${label.toLowerCase()}${t("entryEditor.deleteConfirmSuffix")}`}
+        title={`${t("entryEditor.deleteConfirmTitle")}${label.toLowerCase()}${t("entryEditor.deleteConfirmSuffix")}`}
         description={t("entryEditor.deleteConfirmDescription")}
         onConfirm={confirmDelete}
         onCancel={() => setDeleteTarget(null)}

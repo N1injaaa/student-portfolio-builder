@@ -2,11 +2,13 @@
 
 import { CheckCircle2, AlertCircle, Info, X } from "lucide-react";
 import { useToastStore } from "@/lib/toast-store";
+import { useLanguage } from "@/lib/i18n/context";
 import { cn } from "@/lib/utils";
 
 export function Toaster() {
   const toasts = useToastStore((s) => s.toasts);
   const dismiss = useToastStore((s) => s.dismiss);
+  const { t } = useLanguage();
 
   return (
     <div className="pointer-events-none fixed bottom-4 right-4 z-[100] flex w-full max-w-sm flex-col gap-2">
@@ -38,7 +40,7 @@ export function Toaster() {
             <button
               onClick={() => dismiss(t.id)}
               className="text-ink-soft/60 hover:text-ink focus-ring rounded"
-              aria-label="Dismiss notification"
+              aria-label={t("a11y.dismissNotification")}
             >
               <X className="h-3.5 w-3.5" />
             </button>

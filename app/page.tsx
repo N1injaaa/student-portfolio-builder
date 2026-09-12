@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { Logo } from "@/components/layout/logo";
 import { MarketingNav, Hero } from "@/components/marketing/nav-hero";
+import { Reveal } from "@/components/ui/reveal";
 import { useLanguage } from "@/lib/i18n/context";
 import { SITE_AUTHOR, SITE_NAME, copyrightLine } from "@/lib/site-config";
 
@@ -56,13 +57,13 @@ function WhySection() {
   ];
   return (
     <section className="border-b border-rule py-20">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6">
+      <Reveal className="mx-auto max-w-6xl px-4 sm:px-6">
         <h2 className="font-display text-2xl font-semibold text-ink sm:text-3xl">
           {t("landing.why.title")} {SITE_NAME}
         </h2>
         <div className="mt-10 grid gap-6 sm:grid-cols-3">
           {points.map((p) => (
-            <div key={p.key} className="rounded-lg border border-rule p-6">
+            <div key={p.key} className="hover-lift rounded-lg border border-rule bg-surface p-6">
               <p.icon className="h-5 w-5 text-gold" />
               <h3 className="mt-4 font-display text-lg font-medium text-ink">
                 {t(`${p.key}.title`)}
@@ -71,7 +72,7 @@ function WhySection() {
             </div>
           ))}
         </div>
-      </div>
+      </Reveal>
     </section>
   );
 }
@@ -86,20 +87,20 @@ function FeaturesSection() {
   ];
   return (
     <section id="features" className="border-b border-rule py-20">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6">
+      <Reveal className="mx-auto max-w-6xl px-4 sm:px-6">
         <h2 className="font-display text-2xl font-semibold text-ink sm:text-3xl">
           {t("landing.features.title")}
         </h2>
         <div className="mt-10 grid gap-px overflow-hidden rounded-lg border border-rule bg-rule sm:grid-cols-2">
           {features.map((f) => (
-            <div key={f.key} className="bg-paper p-6">
+            <div key={f.key} className="hover-lift bg-paper p-6">
               <f.icon className="h-5 w-5 text-teal" />
               <h3 className="mt-4 font-display text-lg font-medium text-ink">{t(`${f.key}.title`)}</h3>
               <p className="mt-2 text-sm leading-relaxed text-ink-soft">{t(`${f.key}.body`)}</p>
             </div>
           ))}
         </div>
-      </div>
+      </Reveal>
     </section>
   );
 }
@@ -108,7 +109,7 @@ function TemplatesSection() {
   const { t } = useLanguage();
   return (
     <section id="templates" className="border-b border-rule py-20">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6">
+      <Reveal className="mx-auto max-w-6xl px-4 sm:px-6">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <h2 className="font-display text-2xl font-semibold text-ink sm:text-3xl">
             {t("landing.templates.title")}
@@ -128,7 +129,7 @@ function TemplatesSection() {
             </div>
           ))}
         </div>
-      </div>
+      </Reveal>
     </section>
   );
 }
@@ -232,14 +233,14 @@ function ExampleSection() {
   const { t } = useLanguage();
   return (
     <section className="border-b border-rule bg-surface/40 py-20">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6">
+      <Reveal className="mx-auto max-w-6xl px-4 sm:px-6">
         <h2 className="font-display text-2xl font-semibold text-ink sm:text-3xl">
           {t("landing.example.title")}
         </h2>
         <p className="mt-2 max-w-lg text-sm text-ink-soft">
           {t("landing.example.description")}
         </p>
-        <div className="ledger-card mt-8 max-w-2xl bg-surface p-6">
+        <div className="ledger-card hover-lift mt-8 max-w-2xl bg-surface p-6">
           <div className="flex items-center gap-4">
             <div className="flex h-14 w-14 items-center justify-center rounded-full bg-gold-soft font-display text-lg font-semibold text-gold">
               AJ
@@ -257,7 +258,7 @@ function ExampleSection() {
             {t("landing.example.tryButton")} <ArrowRight className="h-3.5 w-3.5" />
           </Link>
         </div>
-      </div>
+      </Reveal>
     </section>
   );
 }
@@ -267,14 +268,14 @@ function HowItWorks() {
   const stepNumbers = ["01", "02", "03", "04"];
   return (
     <section id="how-it-works" className="border-b border-rule py-20">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6">
+      <Reveal className="mx-auto max-w-6xl px-4 sm:px-6">
         <h2 className="font-display text-2xl font-semibold text-ink sm:text-3xl">
           {t("landing.how.title")}
         </h2>
         <div className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
           {stepNumbers.map((n, idx) => (
             <div key={n}>
-              <p className="stat-figure text-sm text-gold">{n}</p>
+              <p className="stat-figure aurora-text text-sm">{n}</p>
               <h3 className="mt-2 font-display text-base font-medium text-ink">
                 {t(`landing.how.${idx}.title`)}
               </h3>
@@ -282,7 +283,7 @@ function HowItWorks() {
             </div>
           ))}
         </div>
-      </div>
+      </Reveal>
     </section>
   );
 }
@@ -292,7 +293,7 @@ function FAQSection() {
   const faqIndexes = [0, 1, 2, 3, 4];
   return (
     <section id="faq" className="border-b border-rule py-20">
-      <div className="mx-auto max-w-3xl px-4 sm:px-6">
+      <Reveal className="mx-auto max-w-3xl px-4 sm:px-6">
         <h2 className="font-display text-2xl font-semibold text-ink sm:text-3xl">
           {t("landing.faq.title")}
         </h2>
@@ -309,7 +310,7 @@ function FAQSection() {
             </details>
           ))}
         </div>
-      </div>
+      </Reveal>
     </section>
   );
 }
@@ -317,8 +318,12 @@ function FAQSection() {
 function FinalCTA() {
   const { t } = useLanguage();
   return (
-    <section className="py-20">
-      <div className="mx-auto max-w-3xl px-4 text-center sm:px-6">
+    <section className="relative overflow-hidden py-20">
+      <div className="aurora-bg" aria-hidden="true">
+        <div className="aurora-blob aurora-blob--a" style={{ opacity: 0.2 }} />
+        <div className="aurora-blob aurora-blob--b" style={{ opacity: 0.2 }} />
+      </div>
+      <Reveal className="relative z-10 mx-auto max-w-3xl px-4 text-center sm:px-6">
         <h2 className="font-display text-3xl font-semibold text-ink">
           {t("landing.finalCta.title")}
         </h2>
@@ -327,12 +332,12 @@ function FinalCTA() {
         </p>
         <Link
           href="/dashboard"
-          className="focus-ring mt-8 inline-flex items-center gap-2 rounded-md bg-ink px-7 py-3.5 text-sm font-medium text-paper hover:opacity-90"
+          className="hover-lift focus-ring mt-8 inline-flex items-center gap-2 rounded-md bg-ink px-7 py-3.5 text-sm font-medium text-paper hover:opacity-90"
         >
           {t("landing.nav.createPortfolio")}
           <ArrowRight className="h-4 w-4" />
         </Link>
-      </div>
+      </Reveal>
     </section>
   );
 }

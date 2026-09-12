@@ -46,14 +46,19 @@ export function Hero() {
   const { t } = useLanguage();
   return (
     <section className="relative overflow-hidden border-b border-rule">
-      <div className="mx-auto grid max-w-6xl gap-12 px-4 py-20 sm:px-6 lg:grid-cols-[1.1fr_0.9fr] lg:py-28">
+      <div className="aurora-bg" aria-hidden="true">
+        <div className="aurora-blob aurora-blob--a" />
+        <div className="aurora-blob aurora-blob--b" />
+        <div className="aurora-blob aurora-blob--c" />
+      </div>
+      <div className="relative z-10 mx-auto grid max-w-6xl gap-12 px-4 py-20 sm:px-6 lg:grid-cols-[1.1fr_0.9fr] lg:py-28">
         <div className="animate-rise-in">
-          <span className="mb-5 inline-flex items-center gap-1.5 rounded-full border border-rule bg-surface px-3 py-1 text-xs font-medium text-ink-soft">
+          <span className="mb-5 inline-flex items-center gap-1.5 rounded-full border border-rule bg-surface/80 px-3 py-1 text-xs font-medium text-ink-soft backdrop-blur">
             <Sparkles className="h-3 w-3 text-gold" />
             {t("landing.hero.badge")}
           </span>
           <h1 className="font-display text-4xl font-semibold leading-[1.08] text-ink sm:text-5xl lg:text-[3.4rem]">
-            {t("landing.hero.title")}
+            <span className="aurora-text">{t("landing.hero.title")}</span>
           </h1>
           <p className="mt-5 max-w-lg text-lg text-ink-soft">
             {t("landing.hero.subtitle")}
@@ -61,14 +66,14 @@ export function Hero() {
           <div className="mt-8 flex flex-wrap items-center gap-3">
             <Link
               href="/dashboard"
-              className="focus-ring inline-flex items-center gap-2 rounded-md bg-ink px-6 py-3 text-sm font-medium text-paper hover:opacity-90"
+              className="hover-lift focus-ring inline-flex items-center gap-2 rounded-md bg-ink px-6 py-3 text-sm font-medium text-paper hover:opacity-90"
             >
               {t("landing.nav.createPortfolio")}
               <ArrowRight className="h-4 w-4" />
             </Link>
             <a
               href="#templates"
-              className="focus-ring inline-flex items-center gap-2 rounded-md border border-rule px-6 py-3 text-sm font-medium text-ink hover:bg-surface-raised"
+              className="hover-lift focus-ring inline-flex items-center gap-2 rounded-md border border-rule bg-surface/60 px-6 py-3 text-sm font-medium text-ink backdrop-blur hover:bg-surface-raised"
             >
               {t("landing.hero.viewTemplates")}
             </a>
@@ -87,8 +92,8 @@ export function Hero() {
 function TranscriptCard() {
   const { t } = useLanguage();
   return (
-    <div className="relative flex items-center justify-center animate-rise-in [animation-delay:150ms]">
-      <div className="ledger-card relative w-full max-w-sm -rotate-1 bg-surface p-6 shadow-xl">
+    <div className="relative z-10 flex items-center justify-center animate-rise-in [animation-delay:150ms]">
+      <div className="ledger-card hover-lift relative w-full max-w-sm -rotate-1 bg-surface/90 p-6 shadow-xl backdrop-blur">
         <div
           className="absolute -right-4 -top-4 flex h-16 w-16 -rotate-6 items-center justify-center rounded-full border-2 border-gold bg-paper text-center text-[9px] font-semibold uppercase tracking-wide text-gold animate-stamp-in [animation-delay:600ms]"
           aria-hidden="true"

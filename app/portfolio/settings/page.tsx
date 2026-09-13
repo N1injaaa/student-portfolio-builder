@@ -12,6 +12,7 @@ import { PortfolioView } from "@/components/portfolio/portfolio-view";
 import { PortfolioAnalyticsCard } from "@/components/portfolio/analytics-card";
 import { useProfileStore } from "@/lib/store";
 import { useLanguage } from "@/lib/i18n/context";
+import { FONT_OPTIONS } from "@/lib/fonts";
 import { cn, slugify } from "@/lib/utils";
 import { UPGRADE_URL } from "@/lib/upgrade";
 import type {
@@ -166,6 +167,32 @@ function PortfolioSettingsContent() {
                 .
               </p>
             )}
+          </Card>
+
+          <Card>
+            <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-ink-soft">
+              {t("resumeSettings.font")}
+            </p>
+            <div className="grid grid-cols-2 gap-2">
+              {FONT_OPTIONS.map((opt) => (
+                <button
+                  key={opt.id}
+                  onClick={() => updatePortfolioSettings({ font: opt.id })}
+                  className={cn(
+                    "focus-ring rounded-md border px-3 py-2.5 text-left transition-colors",
+                    settings.font === opt.id
+                      ? "border-gold bg-gold-soft"
+                      : "border-rule hover:bg-surface-raised"
+                  )}
+                  style={{ fontFamily: opt.family }}
+                >
+                  <span className="flex items-center justify-between text-base text-ink">
+                    {opt.label}
+                    {settings.font === opt.id && <Check className="h-3.5 w-3.5 shrink-0 text-gold" />}
+                  </span>
+                </button>
+              ))}
+            </div>
           </Card>
 
           <Card>

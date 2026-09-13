@@ -1,15 +1,14 @@
 import type { ReactNode } from "react";
 import type { Profile, ResumeSettings } from "@/types/profile";
 import { formatDateRange } from "@/lib/utils";
+import { getFontFamily } from "@/lib/fonts";
 
 export interface TemplateProps {
   profile: Profile;
 }
 
 export function resumeFontFamily(font: ResumeSettings["font"]) {
-  if (font === "serif") return "'Fraunces', Georgia, serif";
-  if (font === "mono") return "'IBM Plex Mono', monospace";
-  return "'IBM Plex Sans', Arial, sans-serif";
+  return getFontFamily(font);
 }
 
 export function resumeFontSize(size: ResumeSettings["fontSize"]) {

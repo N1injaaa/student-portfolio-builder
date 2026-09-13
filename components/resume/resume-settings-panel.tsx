@@ -9,6 +9,7 @@ import { useProfileStore } from "@/lib/store";
 import { useLanguage } from "@/lib/i18n/context";
 import { cn } from "@/lib/utils";
 import { UPGRADE_URL } from "@/lib/upgrade";
+import { FONT_OPTIONS } from "@/lib/fonts";
 import type { ResumeTemplateId, ResumeSettings } from "@/types/profile";
 
 const FREE_VERSION_LIMIT = 1;
@@ -210,23 +211,35 @@ export function ResumeSettingsPanel() {
 
       <Card>
         <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-ink-soft">
+          {t("resumeSettings.font")}
+        </p>
+        <div className="grid grid-cols-2 gap-2">
+          {FONT_OPTIONS.map((opt) => (
+            <button
+              key={opt.id}
+              onClick={() => updateResumeSettings({ font: opt.id })}
+              className={cn(
+                "focus-ring rounded-md border px-3 py-2.5 text-left transition-colors",
+                settings.font === opt.id
+                  ? "border-gold bg-gold-soft"
+                  : "border-rule hover:bg-surface-raised"
+              )}
+              style={{ fontFamily: opt.family }}
+            >
+              <span className="flex items-center justify-between text-base text-ink">
+                {opt.label}
+                {settings.font === opt.id && <Check className="h-3.5 w-3.5 shrink-0 text-gold" />}
+              </span>
+            </button>
+          ))}
+        </div>
+      </Card>
+
+      <Card>
+        <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-ink-soft">
           {t("resumeSettings.typographyTitle")}
         </p>
         <div className="space-y-3">
-          <div>
-            <Label htmlFor="font">{t("resumeSettings.font")}</Label>
-            <Select
-              id="font"
-              value={settings.font}
-              onChange={(e) =>
-                updateResumeSettings({ font: e.target.value as ResumeSettings["font"] })
-              }
-            >
-              <option value="sans">{t("resumeSettings.sans")}</option>
-              <option value="serif">{t("resumeSettings.serif")}</option>
-              <option value="mono">{t("resumeSettings.mono")}</option>
-            </Select>
-          </div>
           <div>
             <Label htmlFor="fontSize">{t("resumeSettings.fontSize")}</Label>
             <Select

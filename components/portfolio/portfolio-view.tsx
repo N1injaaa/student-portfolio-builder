@@ -2,6 +2,7 @@ import type { Profile } from "@/types/profile";
 import { getPortfolioColors } from "@/lib/portfolio-theme";
 import { PortfolioHero } from "@/components/portfolio/hero";
 import { SITE_NAME } from "@/lib/site-config";
+import { getFontFamily } from "@/lib/fonts";
 import {
   PortfolioAbout,
   PortfolioAchievements,
@@ -28,9 +29,28 @@ export function PortfolioView({
   const colors = getPortfolioColors(settings.theme);
   const accent = settings.accentColor;
   const v = settings.visibleSections;
+  const fontFamily = getFontFamily(settings.font);
 
   return (
-    <div style={{ background: colors.background, minHeight: "100vh", color: colors.text }}>
+    <div
+      style={
+        {
+          background: colors.background,
+          minHeight: "100vh",
+          color: colors.text,
+          fontFamily,
+          // Overriding these here (not just setting fontFamily above) matters
+          // because headings and mono stats use classes like font-display /
+          // font-mono, which set font-family directly via var(--font-display)
+          // etc. — a plain fontFamily on this wrapper wouldn't reach them,
+          // since inheritance only fills in where nothing more specific is
+          // set. Overriding the variables themselves does reach them.
+          "--font-display": fontFamily,
+          "--font-body": fontFamily,
+          "--font-mono": fontFamily,
+        } as React.CSSProperties
+      }
+    >
       <PortfolioHero
         profile={profile}
         colors={colors}

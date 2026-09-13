@@ -1,3 +1,5 @@
+import type { FontId } from "@/lib/fonts";
+
 export interface Overview {
   fullName: string;
   headline: string;
@@ -82,7 +84,7 @@ export type ResumeTemplateId = "minimal" | "modern" | "academic" | "professional
 
 export interface ResumeSettings {
   templateId: ResumeTemplateId;
-  font: "sans" | "serif" | "mono";
+  font: FontId;
   fontSize: "sm" | "md" | "lg";
   spacing: "compact" | "comfortable" | "roomy";
   accentColor: string; // hex
@@ -112,6 +114,7 @@ export type PhotoStyle = "circle" | "square" | "rounded";
 export interface PortfolioSettings {
   username: string;
   theme: PortfolioTheme;
+  font: FontId;
   accentColor: string;
   layout: PortfolioLayout;
   photoStyle: PhotoStyle;
@@ -166,7 +169,7 @@ export const emptyOverview: Overview = {
 
 export const defaultResumeSettings: ResumeSettings = {
   templateId: "minimal",
-  font: "sans",
+  font: "inter",
   fontSize: "md",
   spacing: "comfortable",
   accentColor: "#a57c1b",
@@ -184,6 +187,7 @@ export const defaultResumeSettings: ResumeSettings = {
 export const defaultPortfolioSettings: PortfolioSettings = {
   username: "",
   theme: "paper",
+  font: "fraunces",
   accentColor: "#a57c1b",
   layout: "classic",
   photoStyle: "rounded",

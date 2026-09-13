@@ -22,7 +22,7 @@ export function AcademicTemplate({
   const v = settings.visibleSections;
 
   return (
-    <div style={{ padding: "48px", fontFamily: "'Fraunces', Georgia, serif" }}>
+    <div style={{ padding: "48px" }}>
       <div style={{ textAlign: "center", borderBottom: `2px solid ${accent}`, paddingBottom: "16px" }}>
         <h1 style={{ fontSize: "1.9em", fontWeight: 600 }}>
           {profile.overview.fullName || "Your Name"}
@@ -55,13 +55,13 @@ export function AcademicTemplate({
             <div className="space-y-3">
               {profile.education.map((e) => (
                 <div key={e.id}>
-                  <div className="leader" style={{ fontFamily: "'IBM Plex Sans', sans-serif" }}>
+                  <div className="leader">
                     <span style={{ fontWeight: 600 }}>{e.school}</span>
                     <span style={{ fontSize: "0.85em", color: "#666" }}>
                       {formatDateRange(e.startDate, e.endDate)}
                     </span>
                   </div>
-                  <p style={{ fontSize: "0.9em", fontFamily: "'IBM Plex Sans', sans-serif" }}>
+                  <p style={{ fontSize: "0.9em" }}>
                     {e.degree}
                     {e.gpa ? ` — GPA ${e.gpa}` : ""}
                   </p>
@@ -70,7 +70,6 @@ export function AcademicTemplate({
                       style={{
                         fontSize: "0.86em",
                         color: "#555",
-                        fontFamily: "'IBM Plex Sans', sans-serif",
                       }}
                     >
                       {e.description}
@@ -84,7 +83,7 @@ export function AcademicTemplate({
 
         {v.achievements && profile.achievements.length > 0 && (
           <ResumeSection title="Honors &amp; Achievements" accent={accent} variant="underline">
-            <div style={{ fontFamily: "'IBM Plex Sans', sans-serif" }}>
+            <div>
               <AchievementsList profile={profile} />
             </div>
           </ResumeSection>
@@ -92,7 +91,7 @@ export function AcademicTemplate({
 
         {v.projects && profile.projects.length > 0 && (
           <ResumeSection title="Projects &amp; Research" accent={accent} variant="underline">
-            <div style={{ fontFamily: "'IBM Plex Sans', sans-serif" }}>
+            <div>
               <ProjectsList profile={profile} accent={accent} />
             </div>
           </ResumeSection>
@@ -100,7 +99,7 @@ export function AcademicTemplate({
 
         {v.activities && profile.activities.length > 0 && (
           <ResumeSection title="Activities" accent={accent} variant="underline">
-            <div style={{ fontFamily: "'IBM Plex Sans', sans-serif" }}>
+            <div>
               <ActivitiesList profile={profile} />
             </div>
           </ResumeSection>
@@ -108,7 +107,7 @@ export function AcademicTemplate({
 
         {v.certificates && profile.certificates.length > 0 && (
           <ResumeSection title="Certificates" accent={accent} variant="underline">
-            <div style={{ fontFamily: "'IBM Plex Sans', sans-serif" }}>
+            <div>
               <CertificatesList profile={profile} />
             </div>
           </ResumeSection>
@@ -117,14 +116,14 @@ export function AcademicTemplate({
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "32px" }}>
           {v.skills && profile.skills.length > 0 && (
             <ResumeSection title="Skills" accent={accent} variant="underline">
-              <div style={{ fontFamily: "'IBM Plex Sans', sans-serif" }}>
+              <div>
                 <SkillsInline profile={profile} />
               </div>
             </ResumeSection>
           )}
           {v.languages && profile.languages.length > 0 && (
             <ResumeSection title="Languages" accent={accent} variant="underline">
-              <div style={{ fontFamily: "'IBM Plex Sans', sans-serif" }}>
+              <div>
                 <LanguagesInline profile={profile} />
               </div>
             </ResumeSection>

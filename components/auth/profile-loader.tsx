@@ -6,6 +6,7 @@ import { useProfileStore } from "@/lib/store";
 import { createClient } from "@/lib/supabase/client";
 import { mergeWithDefaults } from "@/lib/profile-merge";
 import { trackEvent } from "@/lib/track-event";
+import { FREE_FOR_EVERYONE } from "@/lib/upgrade";
 import type { Profile } from "@/types/profile";
 
 export function ProfileLoader({ userId, children }: { userId: string; children: ReactNode }) {
@@ -54,7 +55,7 @@ export function ProfileLoader({ userId, children }: { userId: string; children: 
       loadProfile(
         userId,
         mergeWithDefaults((data?.data as Partial<Profile> | null) ?? null),
-        Boolean(data?.is_pro)
+        FREE_FOR_EVERYONE || Boolean(data?.is_pro)
       );
     }
 

@@ -63,22 +63,12 @@ export function TermsContent() {
           </section>
 
           <section>
-            <h2 className="font-display text-lg font-medium text-ink">Покупка Pro</h2>
+            <h2 className="font-display text-lg font-medium text-ink">Стоимость</h2>
             <p className="mt-2">
-              Pro — это разовая покупка, которая открывает дополнительные шаблоны, темы,
-              безлимитный экспорт резюме и аналитику. Оплату обрабатывает{" "}
-              <strong className="text-ink">Lemon Squeezy</strong>, выступающий продавцом записи
-              (merchant of record) — это значит, что юридически покупка совершается у Lemon
-              Squeezy, а не напрямую у {SITE_AUTHOR}. Вопросы по оплате, чеки и запросы на
-              возврат обрабатываются через собственную поддержку и правила Lemon Squeezy.
-            </p>
-            <p className="mt-2">
-              Pro-доступ привязан к email твоего аккаунта и выдаётся автоматически вскоре после
-              успешной оплаты. Если он не появился в разумный срок, напиши на{" "}
-              <a href={`mailto:${CONTACT_EMAIL}`} className="text-teal hover:underline">
-                {CONTACT_EMAIL}
-              </a>
-              .
+              Сейчас {SITE_NAME} полностью бесплатен: все шаблоны, темы и функции доступны
+              всем без оплаты. Если в будущем появятся платные функции, мы заранее обновим эти
+              условия и сообщим об этом на сайте — то, что ты уже создал, при этом не будет
+              удалено.
             </p>
           </section>
 
@@ -184,22 +174,12 @@ export function TermsContent() {
         </section>
 
         <section>
-          <h2 className="font-display text-lg font-medium text-ink">Pro purchases</h2>
+          <h2 className="font-display text-lg font-medium text-ink">Pricing</h2>
           <p className="mt-2">
-            Pro is a one-time purchase that unlocks additional templates, themes, unlimited
-            resume exports, and analytics. Payments are processed by{" "}
-            <strong className="text-ink">Lemon Squeezy</strong>, who acts as the merchant of
-            record — meaning your purchase is legally made from Lemon Squeezy, not directly from
-            {" " + SITE_AUTHOR}. Billing questions, receipts, and refund requests are handled
-            through Lemon Squeezy's own support and policies.
-          </p>
-          <p className="mt-2">
-            Pro access is tied to your account's email and is granted automatically shortly
-            after a successful purchase. If it doesn't appear within a reasonable time, contact{" "}
-            <a href={`mailto:${CONTACT_EMAIL}`} className="text-teal hover:underline">
-              {CONTACT_EMAIL}
-            </a>
-            .
+            {SITE_NAME} is currently completely free: every template, theme, and feature is
+            available to everyone at no cost. If paid features are introduced in the future,
+            we'll update these terms and announce it on the site first — and nothing you've
+            already created will be deleted.
           </p>
         </section>
 

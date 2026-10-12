@@ -47,12 +47,11 @@ export function PrivacyContent() {
               <li>
                 <strong className="text-ink">События использования</strong> — базовые события,
                 вроде просмотров портфолио и скачиваний резюме, чтобы ты видел аналитику по
-                своему портфолио на Pro.
+                своему портфолио.
               </li>
               <li>
-                <strong className="text-ink">Данные об оплате</strong> — если ты покупаешь Pro,
-                оплата полностью обрабатывается Lemon Squeezy (см. ниже) — мы никогда не видим и
-                не храним данные твоей карты.
+                <strong className="text-ink">Платёжные данные</strong> — {SITE_NAME} сейчас
+                полностью бесплатен, поэтому мы не собираем и не храним никаких платёжных данных.
               </li>
             </ul>
           </section>
@@ -61,7 +60,7 @@ export function PrivacyContent() {
             <h2 className="font-display text-lg font-medium text-ink">Как это используется</h2>
             <p className="mt-2">
               Исключительно для работы продукта: авторизация, сохранение и отображение резюме и
-              портфолио, разблокировка Pro-функций после оплаты. Мы не продаём твои данные и не
+              портфолио. Мы не продаём твои данные и не
               показываем рекламу на {SITE_NAME}.
             </p>
           </section>
@@ -75,12 +74,6 @@ export function PrivacyContent() {
               </li>
               <li>
                 <strong className="text-ink">Vercel</strong> — хостит сам сайт.
-              </li>
-              <li>
-                <strong className="text-ink">Lemon Squeezy</strong> — обрабатывает оплату Pro как
-                продавец записи (merchant of record). Они напрямую получают данные твоей оплаты и
-                чек; мы получаем только подтверждение, что покупка совершена, привязанное к
-                твоему email.
               </li>
               <li>
                 <strong className="text-ink">Google</strong> — обеспечивает вход в аккаунт.
@@ -179,12 +172,11 @@ export function PrivacyContent() {
             <li>
               <strong className="text-ink">Usage events</strong> — basic events like portfolio
               page views and resume downloads, so you can see analytics about your own
-              portfolio if you're on Pro.
+              portfolio.
             </li>
             <li>
-              <strong className="text-ink">Payment info</strong> — if you purchase Pro, payment
-              is handled entirely by Lemon Squeezy (see below) — we never see or store your
-              card details.
+              <strong className="text-ink">Payment info</strong> — {SITE_NAME} is currently
+              completely free, so we don't collect or store any payment details.
             </li>
           </ul>
         </section>
@@ -193,7 +185,7 @@ export function PrivacyContent() {
           <h2 className="font-display text-lg font-medium text-ink">How it's used</h2>
           <p className="mt-2">
             Solely to run the product: authenticating you, saving and displaying your resume
-            and portfolio, and unlocking Pro features once you've paid. We don't sell your data,
+            and portfolio. We don't sell your data,
             and we don't run ads on {SITE_NAME}.
           </p>
         </section>
@@ -207,11 +199,6 @@ export function PrivacyContent() {
             </li>
             <li>
               <strong className="text-ink">Vercel</strong> — hosts the website itself.
-            </li>
-            <li>
-              <strong className="text-ink">Lemon Squeezy</strong> — processes Pro payments as
-              the merchant of record. They handle your payment details and receipt directly;
-              we only receive confirmation that a purchase happened, tied to your email.
             </li>
             <li>
               <strong className="text-ink">Google</strong> — provides sign-in.

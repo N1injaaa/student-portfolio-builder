@@ -1,4 +1,16 @@
 /**
+ * MASTER SWITCH. While true, every account is treated as Pro: all
+ * templates/themes unlock, PDF exports are unlimited, the ATS breakdown
+ * and portfolio analytics are visible, watermarks are hidden, and every
+ * "Upgrade" banner/lock disappears (they all key off `isPro`).
+ *
+ * The whole paywall (is_pro column, webhook route, locks, limits) is left
+ * fully intact underneath — to bring payments back, set this to false and
+ * point UPGRADE_URL at a working checkout. Nothing else needs to change.
+ */
+export const FREE_FOR_EVERYONE = true;
+
+/**
  * Where the "Upgrade to Pro" buttons send people.
  *
  * Create a product + a checkout link in your Lemon Squeezy dashboard

@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { createClient } from "@/lib/supabase/server";
 import { mergeWithDefaults } from "@/lib/profile-merge";
 import { SITE_NAME } from "@/lib/site-config";
+import { FREE_FOR_EVERYONE } from "@/lib/upgrade";
 import type { Profile } from "@/types/profile";
 
 export const dynamic = "force-dynamic";
@@ -102,8 +103,8 @@ export default async function PublicPortfolioPage({
   return (
     <div className="relative">
       <PortfolioViewTracker ownerId={row.user_id} />
-      <DownloadResumeButton profile={profile} ownerId={row.user_id} isPro={row.is_pro} />
-      <PortfolioView profile={profile} isPro={row.is_pro} />
+      <DownloadResumeButton profile={profile} ownerId={row.user_id} isPro={FREE_FOR_EVERYONE || row.is_pro} />
+      <PortfolioView profile={profile} isPro={FREE_FOR_EVERYONE || row.is_pro} />
     </div>
   );
 }
